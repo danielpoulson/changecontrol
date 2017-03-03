@@ -142,8 +142,11 @@ exports.dumpTasks = function(req, res) {
     const regExSearch = new RegExp(_search + ".*", "i");
     const _status = 4;
 
+    //Create an id for use on the client side
+    fileData._id = int;
+
     getChangesList(int);
-    res.sendStatus(200);
+    res.send(fileData);
 };
 
 

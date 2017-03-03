@@ -14,7 +14,7 @@ export default class DownloadButton extends React.Component {
       toastr.error('This function does not work with internet explorer. Please contact your administrator', 'Error - Internet Explorer', { timeOut: 5000 });
     } else {
 
-      window.location.href = `/server/upload/${this.props.fileLoad}`;
+      window.location.href = `/api/files/upload/${this.props.fileLoad}`;
 
       if (this.props.export === 'hidden') {
         this.props.removeFile(this.props.fileId);

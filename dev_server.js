@@ -1,8 +1,15 @@
 const express = require('express');
-const config = require('./config/config');
-require('./config/auth');
-const mongoose = require('./config/mongoose');
-const expressfile = require('./config/express');
+require('./server/config/auth');
+const mongoose = require('./server/config/mongoose');
+const expressfile = require('./server/config/express');
+const path = require('path');
+const rootPath = path.normalize(__dirname + '/client/build');
+
+config = {
+    rootPath: rootPath,
+    db: 'mongodb://localhost/techservices',
+    port: 7005
+};
 
 process.env.PORT = config.port;
 
@@ -10,9 +17,8 @@ const app = express();
 
 expressfile(app, config);
 mongoose(config);
-require('./config/passport')();
-// app.use(require('./config/route'));
-require('./routes')(app);
+require('./server/config/passport')();
+require('./server/routes')(app);
 
 
 app.get('*', function (req, res) {

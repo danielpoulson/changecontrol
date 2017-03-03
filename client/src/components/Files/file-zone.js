@@ -12,7 +12,7 @@ class FileZone extends React.Component {
   onDrop(files) {
     const sourceId = this.props.sourceId;
     const addFile = this.props.addFile;
-    const req = Request.post('/server/upload');
+    const req = Request.post('/api/files/upload');
 
     files.forEach((file) => {
 

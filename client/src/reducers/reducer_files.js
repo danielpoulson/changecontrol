@@ -49,6 +49,14 @@ export default function (state = [], action) {
       return deleted;
     }
 
+    case 'ADD_EXPORTFILE':
+      _data = action.payload.data;
+
+      return [
+        ...state,
+        _data
+      ];
+
     default:
       return state;
   }

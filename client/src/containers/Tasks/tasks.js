@@ -74,7 +74,7 @@ class Tasks extends Component {
     };
 
     this.props.exportTasks(info);
-    this.props.getFiles('exp');
+    // this.props.getFiles('exp');
     this.context.router.push('/export');
   }
 

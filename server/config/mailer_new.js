@@ -1,9 +1,9 @@
 "use strict";
 /*eslint no-console: 0*/
-import nodemailer from 'nodemailer';
-import config from './config';
-import path from 'path';
-import fs from 'fs';
+const nodemailer = require('nodemailer');
+const config = require('./config');
+const path = require('path');
+const fs = require('fs');
 const rootPath = path.normalize(__dirname);
 
 

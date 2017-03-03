@@ -105,7 +105,6 @@ function fileDeletion(id) {
           if(doc){
             fs.unlink(uploaded + doc.fsFilePath, function (err) {
                 if (err) throw err;
-                //console.log('successfully deleted /uploaded/' + doc.fsFilePath);
             });
 
             File.remove({_id: id}, function (err) {
@@ -115,11 +114,12 @@ function fileDeletion(id) {
     });
 }
 
-exports.getFileCount = function(req,res){
-    File.count({fsSource:req.params.id}, function(err, fileCount){
-        res.send(fileCount.toString());
-    });
-};
+// TODO: (3) (MAJOR) - To be removed
+// exports.getFileCount = function(req,res){
+//     File.count({fsSource:req.params.id}, function(err, fileCount){
+//         res.send(fileCount.toString());
+//     });
+// };
 
 exports.updateFileBook = function(req,res){
     const id = req.params.id;

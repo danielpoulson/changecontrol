@@ -105,7 +105,6 @@ class Changes extends Component {
     };
 
     this.props.exportChanges(info);
-    this.props.getFiles('exp');
     this.context.router.push('/export');
   }
 

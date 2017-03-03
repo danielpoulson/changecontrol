@@ -1,17 +1,15 @@
 "use strict";
-import express from 'express';
-import logger from 'morgan';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import passport from 'passport';
-import path from 'path';
-const rootPath = path.normalize(__dirname + '/../../');
+const express = require('express');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const passport = require('passport');
 
 /*eslint no-console: 0*/
 
-export default function (app, config) {
+module.exports = function (app, config) {
 
-    app.set('views', rootPath);
+    app.set('views', config.rootPath);
     app.engine('html', require('ejs').renderFile);
     app.use(logger('dev'));
     app.use(cookieParser());
@@ -26,6 +24,6 @@ export default function (app, config) {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    app.use(express.static(rootPath));
+    app.use(express.static(config.rootPath));
 
 }

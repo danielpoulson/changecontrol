@@ -1,10 +1,10 @@
 "use strict";
 /*eslint no-console: 0*/
-import nodemailer from 'nodemailer';
-import xoauth2 from 'xoauth2';
-import config from './config';
-import path from 'path';
-import fs from 'fs';
+const nodemailer = require('nodemailer');
+const xoauth2 = require('xoauth2');
+const config = require('./config');
+const path = require('path');
+const fs = require('fs');
 const rootPath = path.normalize(__dirname);
 
 

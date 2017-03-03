@@ -9,7 +9,7 @@ export const SET_USER_DASHBOARD = 'SET_USER_DASHBOARD';
 
 
 export function getUserDashboard(username){
-  const url = `/api/userdashboard/${username}`;
+  const url = `/api/changes/userdashboard/${username}`;
   const request = axios.get(url);
 
   return {
@@ -44,7 +44,7 @@ export function setLoading(data) {
 }
 
 export function setUser() {
-  const url = '/api/loggeduser';
+  const url = '/api/user/logged';
   const request = axios.get(url);
 
   return {

@@ -19,7 +19,7 @@ export default class BookoutButton extends React.Component {
       // const _log = { CC_No: this.props.source, CC_Id: 4, CC_Action: `File booked out - ${this.props.fileLoad}`,
       //           CC_ActBy: this.props.user.fullname, CC_ActDate: new Date() };
 
-      window.location.href = `/server/upload/${this.props.fileLoad}`;
+      window.location.href = `/api/files/upload/${this.props.fileLoad}`;
 
       //this.props.createLog(_log);
       this.props.bookoutFile(this.props.fileId, this.props.user.fullname);

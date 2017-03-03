@@ -6,21 +6,17 @@
   "scripts": {
     "start": "nf start -p 3010",
     "start:prod": "NODE_ENV=production node server/server.js",
-    "babel-node": "babel-node --preset=es2015",
-    "build:folder": "npm-run-all --parallel build:server copy:*",
-    "build:prod": "npm-run-all delete:dist build:folder",
+    "build:folder": "npm-run-all --parallel copy:*",
+    "build:prod": "npm-run-all delete:dist build:client build:folder",
     "build:client": "npm run build --prefix client",
     "delete:dist": "del ./dist",
     "dev:babel": "babel server -d dist/server -watch",
-    "dev:nodemon": "nodemon dist/server/server.js",
+    "dev:nodemon": "NODE_ENV=development nodemon server/server.js --watch server",
     "serve:dev": "npm-run-all --parallel dev:*",
-    "build:server": "babel server -d dist/server",
-    "copy:client": "cpy client/build/*.* dist",
-    "copy:clientJS": "cpy client/build/static/js/*.* dist/static/js",
-    "copy:clientCSS": "cpy client/build/static/css/*.* dist/static/css",
-    "copy:clientmedia": "cpy client/build/static/media/*.* dist/static/media",
+    "copy:client": "cpy '**/*.*' ../../dist --cwd=client/build --parents",
     "copy:packjson": "cpy 'package.json' dist",
-    "copy:html": "cpy 'server/config/mail.html' dist/server/config/"
+    "copy:html": "cpy 'server/config/mail.html' dist/server/config/",
+    "copy:server": "cpy '**/*.js' '../dist/server' --cwd=server --parents"
   },
   "repository": {
     "type": "git",
@@ -54,12 +50,5 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "xoauth2": "^1.2.0"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.23.0",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.1.8",
-    "babel-preset-latest": "^6.22.0"
   }
 }

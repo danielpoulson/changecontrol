@@ -28,7 +28,7 @@ export function addFile(data) {
 }
 
 export function deleteFile(id) {
-  const url = `/server/delete/${id}`;
+  const url = `/api/files/delete/${id}`;
   axios.delete(url);
 
   return {
@@ -48,7 +48,7 @@ export function removeFile(id) {
 }
 //
 export function bookoutFile(id, user) {
-  const url = `/api/filebooked/${id}`;
+  const url = `/api/files/booked/${id}`;
   axios.put(url, {user: user});
 
   return {

@@ -67,7 +67,6 @@ exports.getLoggedUser = function(req, res) {
 };
 
 exports.getUser = function(req, res) {
-  console.log("getUser");
     const _fullname = req.params.id;
 
     User
@@ -116,9 +115,11 @@ exports.createUser = function (req, res, next) {
 exports.deleteUser= function (req, res) {
     const id = req.params.id;
 
+    console.log(req.params.id);
+
     User.remove({_id: id}, function (err) {
         if (err) return handleError(err);
-        res.status(200);
+        res.sendStatus(200);
     });
 
 

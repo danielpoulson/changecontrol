@@ -1,12 +1,12 @@
-import mongoose from'mongoose';
-import userModel from'../models/User';
-import changeModel from'../models/Change';
-import projectModel from'../models/Project';
-import taskModel from'../models/Task';
-import filesModel from'../models/File';
+const mongoose = require('mongoose');
+const userModel = require('../models/User');
+const changeModel = require('../models/Change');
+const projectModel = require('../models/Project');
+const taskModel = require('../models/Task');
+const filesModel = require('../models/File');
 
 /*eslint no-console: 0*/
-export default function(config) {
+module.exports = function(config) {
 	mongoose.Promise = global.Promise;
 	mongoose.connect(config.db);
   const db = mongoose.connection;

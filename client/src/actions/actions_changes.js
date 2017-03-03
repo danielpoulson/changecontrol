@@ -10,7 +10,7 @@ export const BOOKOUT_FILE = 'BOOKOUT_FILE';
 
 
 export function getChanges(data) {
-  const url = `/api/changes/${data}`;
+  const url = `/api/changes/all/${data}`;
   const request = axios.get(url);
 
   return {
@@ -21,7 +21,7 @@ export function getChanges(data) {
 }
 
 export function getChange(data) {
-  const url = `/api/change/${data}`;
+  const url = `/api/changes/${data}`;
   let request = {};
 
   if (data !== 'new') {
@@ -47,7 +47,7 @@ export function addChange(data) {
 }
 
 export function editChange(data) {
-  const url = `/api/change/${data._id}`;
+  const url = `/api/changes/${data._id}`;
   axios.put(url, data);
 
   return {
@@ -60,7 +60,7 @@ export function editChange(data) {
 // TODO: Delete change from cached list of changes
 
 export function closeChange(data) {
-  const url = `/api/change/${data._id}`;
+  const url = `/api/changes/${data._id}`;
   axios.put(url, data);
 
   return {
@@ -79,7 +79,7 @@ export function loadPage(data) {
 }
 
 export function createLog(data) {
-  const url = `/api/changelog/${data.CC_No}`;
+  const url = `/api/changes/changelog/${data.CC_No}`;
   axios.put(url, data);
 
   return {
@@ -101,10 +101,11 @@ export function bookoutFile(data) {
 }
 
 export function exportChanges(search) {
-  const url = '/export/changes';
-  axios.post(url, search);
+  const url = '/api/changes/export';
+  const request = axios.post(url, search);
 
   return {
-    type: 'EXPORT_CHANGES'
+    type: 'ADD_EXPORTFILE',
+    payload: request
   };
 }

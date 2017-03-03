@@ -241,7 +241,9 @@ exports.dumpChanges = function(req, res) {
         .pipe(Change.csvTransformStream())
         .pipe(fs.createWriteStream(file));
 
-    res.sendStatus(200);
+    //Create an id for use on the client side
+    fileData._id = int;
+    res.send(fileData);
 
 };
 
