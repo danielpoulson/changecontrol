@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const mongooseToCsv = require('mongoose-to-csv'); //https://www.npmjs.com/package/mongoose-to-csv
 const utils = require('../config/utils');
 
 const taskSchema = new Schema({
@@ -16,31 +15,6 @@ const taskSchema = new Schema({
     TKChampNew: {type: Boolean, default: false},
     datecreated: {type:Date, default: Date.now},
     dateclosed: {type:Date}
-});
-
-taskSchema.plugin(mongooseToCsv, {
-    headers: 'Source Task Owner StartDate TargetDate Status',
-    constraints: {
-        'Source': 'SourceId',
-        'Owner': 'TKChamp',
-        'Status': 'TKStat'
-    },
-    virtuals: {
-        'Task': function (doc) {
-            const descpt = doc.TKName.replace(/,/g, "");
-            return descpt;
-        },
-        'TargetDate': function (doc) {
-            const _date = (typeof doc.TKTarg != 'undefined') ? utils.dpFormatDate(doc.TKTarg) : '';
-            return _date;
-        },
-
-        'ClosedDate': function (doc) {
-            const _date = (typeof doc.TKStart != 'undefined') ? utils.dpFormatDate(doc.TKStart) : '';
-            return _date;
-        }
-    }
-
 });
 
 const Task = mongoose.model('Task', taskSchema);
