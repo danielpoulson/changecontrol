@@ -8,7 +8,7 @@ router.route('/:id')
     .delete(tasks.deleteTask);
 
 router.post('/', tasks.createTask);
-router.get('/all/:status', tasks.getTasks);
+router.get('/all/:status/:capa', tasks.getTasks);
 router.post('/export', tasks.dumpTasks);
 router.get('/project/:id', tasks.getProjectTaskList);
 

@@ -5,7 +5,7 @@ const files = require('../controllers/files');
 const tasks = require('../controllers/tasks');
 const users = require('../controllers/users');
 const mailer = require('../config/mailer.js');
-const dateFunc = require('../config/date-function');
+const utils = require('../config/utils');
 const server_data = require('../config/server_data');
 const config = require('../config/config.js'); 
 
@@ -79,8 +79,7 @@ exports.updateChangeComment = function(req, res) {
 
 
 function createEmail(CC_TDate, CC_No, CC_Descpt, CC_Champ){
-  const _Target = dateFunc.dpFormatDate(CC_TDate);
-  const emailType = "Change Control";
+  const _Target = utils.dpFormatDate(CC_TDatutilsailType = "Change Control");
   const emailActivity = `<b>Change Control - </b><em>${CC_No}</em> </br>
       <b> Deviation Description:</b><i>${CC_Descpt} <b> Target Date</b> ${_Target}</i>`;
 
@@ -100,6 +99,14 @@ exports.getChangeById = function(req, res) {
     Change.findOne({CC_No:req.params.id}).exec(function(err, change) {
         res.send(change);
     });
+};
+
+exports.getReportData = function(status){
+
+    return Change.find({CC_Stat: {$lt:status}})
+        .select({ CC_No: 1, CC_Descpt: 1, _id:0 })
+        .sort({CC_TDate:1})
+        .exec();
 };
 
 // This function gets the count for **active** tasks and change controls for the logged in user

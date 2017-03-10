@@ -2,13 +2,14 @@
 /*eslint no-console: 0*/
 const nodemailer = require('nodemailer');
 const xoauth2 = require('xoauth2');
+const Users = require('../controllers/users');
 const config = require('./config');
 const path = require('path');
 const fs = require('fs');
 const rootPath = path.normalize(__dirname);
 
 
-exports.sendMail = function(toEmail, emailType, emailActivity) {
+function sendMail(toEmail, emailType, emailActivity) {
   const emailSubject = "You have been assigned ownership of a " + emailType;
 
  let _auth = {
@@ -51,3 +52,22 @@ exports.sendMail = function(toEmail, emailType, emailActivity) {
 
 
 };
+
+function createEmail(body){
+  const _targetDate = moment(body.TKTarg).format('DD/MM/YYYY');
+  const emailType = "Change Control - Task";
+  const emailActivity = '<b>Associated Change Control - </b><em>' + body.SourceId + '</em></br><b>Task to Complete: </b><i>'
+   + body.TKName + '<b>  Date Due </b>' + _targetDate + '</i>';
+
+  const p = Users.getUserEmail(body.TKChamp).exec();
+
+  p.then(function(res){
+    const _toEmail = res[0].email;
+    sendMail(_toEmail, emailType, emailActivity);
+  }).catch(function (err) {
+    console.log(err);
+  });
+
+}
+
+exports.createEmail = createEmail;

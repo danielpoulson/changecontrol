@@ -8,6 +8,7 @@ export const DELETE_TASK = 'DELETE_TASK';
 export const LOAD_PAGE_TASKS = 'LOAD_PAGE_TASKS';
 export const GET_PROJECT_TASKS = 'GET_PROJECT_TASKS';
 export const GET_ALL_TASKS = 'GET_ALL_TASKS';
+export const SET_CAPA = 'SET_CAPA';
 
 
 export function getTasks(data) {
@@ -22,7 +23,9 @@ export function getTasks(data) {
 }
 
 export function getAllTasks() {
-  const url = "/api/tasks/all/4";
+  const _status = 4;
+  const _capa = 0;
+  const url = `/api/tasks/all/${_status}/${_capa}`;
   const request = axios.get(url);
 
   return {
@@ -108,5 +111,11 @@ export function exportTasks(search) {
   return {
     type: 'ADD_EXPORTFILE',
     payload: request
+  };
+}
+
+export function setCapa() {
+  return {
+    type: SET_CAPA
   };
 }

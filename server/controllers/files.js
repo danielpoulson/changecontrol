@@ -11,6 +11,7 @@ const uploaded = config.uploaded;
 exports.downloadFile = function (req, res) {
     let filename = req.params.file;
     const fileType = filename.substring(0,3);
+    const expfilename = filename.slice(6);
     let file = '';
 
     if(fileType == 'exp'){
@@ -20,20 +21,28 @@ exports.downloadFile = function (req, res) {
         file = uploaded + filename;
     }
 
-    res.download(file, filename, function(err){
-      if (err) {
-        console.log(err);
-      } else {
-            if(fileType == 'exp'){
+    if (fs.existsSync(file)) {
+        res.download(file, filename, function(err){
+            if (err) {
+                console.log(err);
+            } else {
+                if(fileType == 'exp'){
 
-                File.find({fsFilePath : filename})
-                    .exec(function (err, collection) {
-                    fileDeletion(collection[0]._id);
-                });
+                    File.find({fsFilePath : filename})
+                        .exec(function (err, collection) {
+                        fileDeletion(collection[0]._id);
+                    });
+                }
             }
-      }
+        });
 
-    });
+    } else {
+        res.redirect('/');
+        
+        File.remove({fsFilePath: expfilename}, function (err) {
+            if (err) {console.log(err);}
+        });
+    }
 };
 
 exports.uploadFile = function (req, res) {
@@ -100,26 +109,20 @@ exports.deletefile = function (req, res) {
 
 function fileDeletion(id) {
 
-        File.findById(id, function (err, doc){
+    File.findById(id, function (err, doc){
 
-          if(doc){
-            fs.unlink(uploaded + doc.fsFilePath, function (err) {
-                if (err) throw err;
-            });
-
+        if(doc){
+        
             File.remove({_id: id}, function (err) {
                 if (err) {console.log(err);}
             });
-          }
+
+            fs.unlink(uploaded + doc.fsFilePath, function (err) {
+                if (err) {console.log(err)};
+            });
+        }    
     });
 }
-
-// TODO: (3) (MAJOR) - To be removed
-// exports.getFileCount = function(req,res){
-//     File.count({fsSource:req.params.id}, function(err, fileCount){
-//         res.send(fileCount.toString());
-//     });
-// };
 
 exports.updateFileBook = function(req,res){
     const id = req.params.id;

@@ -1,28 +1,21 @@
 "use strict";
 /*eslint no-console: 0*/
 const Task = require('mongoose').model('Task');
-const Change = require('mongoose').model('Change');
-const fs = require('fs');
 const files = require('../controllers/files');
-const Users = require('../controllers/users');
-const json2csv = require('json2csv');
 const mailer = require('../config/mailer.js');
-const moment = require('moment');
 const config = require('../config/config.js'); 
-const dateFunc = require('../config/date-function');
+const utils = require('../config/utils');
+const databind = require('../helpers/data-bind');
 
 const uploaded = config.uploaded;
 
 
 exports.getTasks = function(req, res) {
     const status = req.params.status;
+    const capa = req.params.capa || 0;
 
-    Task
-        .where('TKStat').lte(status)
-        .where('SourceId').in([/^CC.*$/])
-        .select({SourceId:1, TKName:1, TKTarg:1, TKStart:1, TKChamp:1, TKStat:1})
-        .sort({TKTarg : 1})
-        .exec(function(err, collection) {
+    Task.find({$and: [{TKStat: { $lte: status }}, { TKCapa: { $gte: capa }}]}, { SourceId: true, TKName: true, TKTarg: true, TKStart:true, TKChamp:true, TKStat:true, TKCapa:true})
+        .sort({TKTarg:1}).exec(function(err, collection) {
         res.send(collection);
     });
 };
@@ -43,7 +36,7 @@ exports.updateTask = function(req, res) {
         res.sendStatus(200);
 
         if(newOwner){
-          createEmail(req.body);
+          mailer.createEmail(req.body);
         }
     });
 };
@@ -81,27 +74,9 @@ exports.createTask = function(req, res, next) {
             return res.send({reason:err.toString()});
         }
         res.status(200).send(task);
-        createEmail(req.body);
+        mailer.createEmail(req.body);
     });
 };
-
-
-function createEmail(body){
-  const _targetDate = moment(body.TKTarg).format('DD/MM/YYYY');
-  const emailType = "Change Control - Task";
-  const emailActivity = '<b>Associated Change Control - </b><em>' + body.SourceId + '</em></br><b>Task to Complete: </b><i>'
-   + body.TKName + '<b>  Date Due </b>' + _targetDate + '</i>';
-
-  const p = Users.getUserEmail(body.TKChamp).exec();
-
-  p.then(function(res){
-    const _toEmail = res[0].email;
-    mailer.sendMail(_toEmail, emailType, emailActivity);
-  }).catch(function (err) {
-    console.log(err);
-  });
-
-}
 
 exports.getTaskById = function(req, res) {
     Task.findById(req.params.id).exec(function(err, task) {
@@ -123,14 +98,20 @@ exports.getCountAll = function(){
   return Task.count({TKStat: {$lt:5}});
 };
 
+exports.getReportData = function(){
+    return Task.find({'TKStat':{$lte:4}}, {SourceId:1, TKName:1, TKTarg:1, TKStart:1, TKChamp:1, TKStat:1})
+        .sort({TKTarg : 1}).exec();
+}
+
 exports.dumpTasks = function(req, res) {
     const fileData = {};
     const newDate = new Date();
     const int = parseInt((Math.random()*1000000000),10);
+    const filename = 'tasks' + int;
 
     fileData.fsAddedAt = newDate;
     fileData.fsAddedBy = req.body.fsAddedBy;
-    fileData.fsFileName = 'tasks' + int;
+    fileData.fsFileName = filename;
     fileData.fsFileExt = 'csv';
     fileData.fsSource = req.body.fsSource;
     fileData.fsFilePath = 'tasks' + int + '.csv';
@@ -145,98 +126,9 @@ exports.dumpTasks = function(req, res) {
     //Create an id for use on the client side
     fileData._id = int;
 
-    getChangesList(int);
+    databind.createTaskReport(filename, _search, regExSearch, _status);
     res.send(fileData);
 };
-
-
-function getChangesList(int) {
-    const status = 4;
-    const file = uploaded + 'tasks' + int + '.csv';
-    const fields = ['SourceId', '_name', 'TKName', 'TKStart', 'TKTarg', 'TKChamp', 'TKStat'];
-
-    Change.find({CC_Stat: {$lt:status}})
-        .select({ CC_No: 1, CC_Descpt: 1, _id:0 })
-        .sort({CC_TDate:1})
-        .exec(function(err, collection) {
-
-            Task
-                .where('TKStat').lte(4)
-                .select({SourceId:1, TKName:1, TKTarg:1, TKStart:1, TKChamp:1, TKStat:1})
-                .sort({TKTarg : 1})
-                .exec(function(err, coll) {
-
-                    const reformattedArray = coll.map(function(obj){
-
-                        const TKName = obj.TKName.replace(/,/g, "");
-                        const TKStart = (typeof obj.TKStart != 'undefined') ? dateFunc.dpFormatDate(obj.TKStart) : '';                        
-                        const TKTarg = (typeof obj.TKTarg != 'undefined') ? dateFunc.dpFormatDate(obj.TKTarg) : '';
-                        const TKChamp = obj.TKChamp;
-                        let TKStat = null;
-                        const SourceId = obj.SourceId.replace(/,/g, "");
-
-                        switch (obj.TKStat) {
-                            case 1 :
-                                TKStat = "Not Started (New)";
-                                break;
-                            case 2 :
-                                TKStat = 'On Track';
-                                break;
-                            case 3 :
-                                TKStat = 'In Concern';
-                                break;
-                            case 4 :
-                                TKStat = 'Behind Schedule';
-                                break;
-                            case 5 :
-                                TKStat = 'Completed';
-                                break;
-                            default :
-                                TKStat = "Not Set";
-                                break;
-                        }
-
-                        const _tasks = collection.find(change => change.CC_No === obj.SourceId);
-
-                        if (typeof _tasks === 'object') {
-                            const _name = _tasks.CC_Descpt;
-                            return {TKName, _name, TKTarg, TKStart, TKChamp, TKStat, SourceId};
-                        }
-
-
-                    });
-
-                    json2csv({ data: reformattedArray, fields: fields }, function(err, csv) {
-                      if (err) console.log(err);
-                      fs.writeFile(file, csv, function(err) {
-                        if (err) throw err;
-                        console.log('file saved');
-                      });
-                    });
-
-            });
-    });
-}
-
-function write_to_log (write_data) {
-    const fs = require("fs");
-    const path = '.././logs/logs.txt';
-    const date = new Date();
-    const day = ("0" + date.getDate()).slice(-2);
-    const month = ("0" + (date.getMonth() + 1)).slice(-2);
-    const year = date.getFullYear();
-    const dString = day + "/" + month + "/" + year;
-
-    write_data = "\r\n" + dString + " - " + write_data;
-
-    fs.appendFile(path, write_data, function(error) {
-         if (error) {
-           console.error("write error:  " + error.message);
-         } else {
-           console.log("Successful Write to " + path);
-         }
-    });
-}
 
 function handleError(err){
     console.log(err);

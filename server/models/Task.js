@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const mongooseToCsv = require('mongoose-to-csv'); //https://www.npmjs.com/package/mongoose-to-csv
-const dateFunc = require('../config/date-function');
+const utils = require('../config/utils');
 
 const taskSchema = new Schema({
     ID: Number,
@@ -12,7 +12,10 @@ const taskSchema = new Schema({
     TKStat: {type: Number, required: '{PATH} is required!'},
     SourceId: {type: String, required: '{PATH} is required!'},
     TKComment: String,
-    TKChampNew: {type: Boolean, default: false}
+    TKCapa: {type: Number, default: 0},
+    TKChampNew: {type: Boolean, default: false},
+    datecreated: {type:Date, default: Date.now},
+    dateclosed: {type:Date}
 });
 
 taskSchema.plugin(mongooseToCsv, {
@@ -28,12 +31,12 @@ taskSchema.plugin(mongooseToCsv, {
             return descpt;
         },
         'TargetDate': function (doc) {
-            const _date = (typeof doc.TKTarg != 'undefined') ? dateFunc.dpFormatDate(doc.TKTarg) : '';
+            const _date = (typeof doc.TKTarg != 'undefined') ? utils.dpFormatDate(doc.TKTarg) : '';
             return _date;
         },
 
         'ClosedDate': function (doc) {
-            const _date = (typeof doc.TKStart != 'undefined') ? dateFunc.dpFormatDate(doc.TKStart) : '';
+            const _date = (typeof doc.TKStart != 'undefined') ? utils.dpFormatDate(doc.TKStart) : '';
             return _date;
         }
     }

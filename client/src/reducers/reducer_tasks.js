@@ -1,4 +1,4 @@
-import { ADD_TASK, EDIT_TASK, DELETE_TASK, GET_TASKS, LOAD_PAGE_TASKS, GET_PROJECT_TASKS } from '../actions/actions_tasks';
+import { ADD_TASK, EDIT_TASK, DELETE_TASK, GET_TASKS, LOAD_PAGE_TASKS, GET_PROJECT_TASKS, SET_CAPA } from '../actions/actions_tasks';
 import { pagedList, removeByIndex, searchData } from '../utils/data-functions';
 
 const initialState = {
@@ -26,6 +26,18 @@ export default function (state = initialState, action) {
   let ctlist = [];
 
   switch (action.type) {
+
+    //What does this do what is the point
+      //   case ADD_DEV:
+      // alldata = [ ...state.alldata, _data ];
+      // ctlist = [];
+      // ctTotal = 0;
+      // return {
+      //   ...state,
+      //   alldata,
+      //   ctlist,
+      //   ctTotal
+      // };
     case ADD_TASK:
       _data = action.payload.data;
       alldata = [
@@ -143,6 +155,16 @@ export default function (state = initialState, action) {
         paged
       };
     }
+
+    case SET_CAPA: {
+      const showCapaOnly = !state.showCapaOnly;
+
+      return {
+        ...state,
+        showCapaOnly
+      };
+    }
+
     default:
       return state;
   }

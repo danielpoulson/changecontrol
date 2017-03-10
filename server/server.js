@@ -3,6 +3,8 @@ const config = require('./config/config');
 require('./config/auth');
 const mongoose = require('./config/mongoose');
 const expressfile = require('./config/express');
+const {bindData} = require('./helpers/data-bind');
+
 
 process.env.PORT = config.port;
 

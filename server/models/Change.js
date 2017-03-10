@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const mongooseToCsv = require('mongoose-to-csv'); //https://www.npmjs.com/package/mongoose-to-csv
-const dateFunc = require('../config/date-function');
+const utils = require('../config/utils');
 
 const changeSchema = new Schema({
     Id: Number,
@@ -48,12 +48,12 @@ changeSchema.plugin(mongooseToCsv, {
             return comp;
         },
         'TargetDate': function (doc) {
-            const _date = (typeof doc.CC_TDate != 'undefined') ? dateFunc.dpFormatDate(doc.CC_TDate) : '';
+            const _date = (typeof doc.CC_TDate != 'undefined') ? utils.dpFormatDate(doc.CC_TDate) : '';
             return _date;
         },
 
         'ClosedDate': function (doc) {
-            const _date = (typeof doc.CC_CDate != 'undefined') ? dateFunc.dpFormatDate(doc.CC_CDate) : '';
+            const _date = (typeof doc.CC_CDate != 'undefined') ? utils.dpFormatDate(doc.CC_CDate) : '';
             return _date;
         }
     }
