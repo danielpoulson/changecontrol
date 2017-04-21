@@ -1,3 +1,4 @@
+//SYNC 11/03/2017 DP
 "use strict";
 const User = require('mongoose').model('User');
 const passport = require('passport');

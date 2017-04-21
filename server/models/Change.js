@@ -17,6 +17,7 @@ const changeSchema = new Schema({
     CC_TDate: {type: Date, required: '{PATH} is required!'},
     CC_CDate: { type: Date },
     created: { type: Date, default: Date.now },
+    dateclosed: {type:Date},
     CC_Stat: {type: Number, required: '{PATH} is required!'},
     CC_Curt: {type: String},
     CC_Prop: {type: String},

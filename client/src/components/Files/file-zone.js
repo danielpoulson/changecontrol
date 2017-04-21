@@ -1,7 +1,9 @@
+//SYNC 11/03/2017 DP
 import React, { PropTypes } from 'react';
 import Dropzone from 'react-dropzone';
 import toastr from 'toastr';
 import Request from 'superagent';
+import {fileRegex} from '../../utils/helpers';
 
 class FileZone extends React.Component {
   constructor(props) {
@@ -16,7 +18,7 @@ class FileZone extends React.Component {
 
     files.forEach((file) => {
 
-      const myRe = /C{2}\d{6}\s[-]\s/;
+      const myRe = fileRegex;
       const _fileName = file.name;
       let _newFileName = '';
       const myArray = myRe.exec(_fileName);

@@ -1,3 +1,4 @@
+//SYNC 11/03/2017 DP
 export function taskFormIsValid(task) {
 	let formIsValid = true;
     let errors = []; //Clears any previous errors

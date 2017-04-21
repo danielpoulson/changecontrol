@@ -1,12 +1,13 @@
-"use strict";
-/*eslint no-console: 0*/
-const nodemailer = require('nodemailer');
-const xoauth2 = require('xoauth2');
-const Users = require('../controllers/users');
-const config = require('./config');
-const path = require('path');
-const fs = require('fs');
-const rootPath = path.normalize(__dirname);
+  "use strict";
+  /*eslint no-console: 0*/
+  const nodemailer = require('nodemailer');
+  const xoauth2 = require('xoauth2');
+  const Users = require('../controllers/users');
+  const config = require('./config');
+  const utils = require('./utils');
+  const path = require('path');
+  const fs = require('fs');
+  const rootPath = path.normalize(__dirname);
 
 
 function sendMail(toEmail, emailType, emailActivity) {
@@ -54,7 +55,7 @@ function sendMail(toEmail, emailType, emailActivity) {
 };
 
 function createEmail(body){
-  const _targetDate = moment(body.TKTarg).format('DD/MM/YYYY');
+  const _targetDate = utils.dpFormatDate(body.TKTarg);
   const emailType = "Change Control - Task";
   const emailActivity = '<b>Associated Change Control - </b><em>' + body.SourceId + '</em></br><b>Task to Complete: </b><i>'
    + body.TKName + '<b>  Date Due </b>' + _targetDate + '</i>';
