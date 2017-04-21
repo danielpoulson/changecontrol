@@ -32,7 +32,7 @@ const changeSchema = new Schema({
 });
 
 changeSchema.plugin(mongooseToCsv, {
-    headers: 'CCNo Description Owner TargetDate ClosedDate Company Status',
+    headers: 'CCNo Description Owner TargetDate ClosedDate Company Status Created',
     constraints: {
         'CCNo': 'CC_No',
         'Owner': 'CC_Champ',
@@ -54,6 +54,11 @@ changeSchema.plugin(mongooseToCsv, {
 
         'ClosedDate': function (doc) {
             const _date = (typeof doc.CC_CDate != 'undefined') ? utils.dpFormatDate(doc.CC_CDate) : '';
+            return _date;
+        },
+
+        'Created': function (doc) {
+            const _date = (typeof doc.created != 'undefined') ? utils.dpFormatDate(doc.created) : '';
             return _date;
         }
     }

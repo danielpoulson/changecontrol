@@ -7,7 +7,7 @@ const users = require('../controllers/users');
 const mailer = require('../config/mailer.js');
 const utils = require('../config/utils');
 const server_data = require('../config/server_data');
-const config = require('../config/config.js'); 
+const config = require('../config/config.js');
 
 const uploaded = config.uploaded;
 
@@ -151,7 +151,7 @@ exports.getUserDashboard = function(req, res){
           "_id": "$Year",
           "open": { "$sum": 1 }
       }},
-      { $sort: {"_id": 1}}  
+      { $sort: {"_id": 1}}
     ],
     function(err,result) {
 
@@ -167,8 +167,8 @@ exports.getUserDashboard = function(req, res){
               "CC_Stat": 1
             }
           },
-          { 
-            "$match": { 
+          {
+            "$match": {
               "$and": [
                 { Created: "Created" },
                 { "CC_Stat": { $gt: 3 } },
@@ -241,7 +241,7 @@ exports.dumpChanges = function(req, res) {
 
 
     Change.find({CC_Stat: {$lt:_status}})
-        .select({CC_No:true, CC_Descpt:true, CC_Champ:true, CC_TDate:true, CC_CDate:true, CC_Comp:true, CC_Stat:true, _id: 0})
+        .select({CC_No:true, CC_Descpt:true, CC_Champ:true, CC_TDate:true, CC_CDate:true, CC_Comp:true, CC_Stat:true, created:1, _id: 0})
         .where({$or: [{CC_Champ : regExSearch }, {CC_No : regExSearch}, {CC_Descpt : regExSearch}]})
         // .where({CC_Champ : regExSearch })
         .stream()

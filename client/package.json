@@ -1,5 +1,5 @@
 {
-  "name": "clientchange",
+  "name": "changecontrol_client",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {

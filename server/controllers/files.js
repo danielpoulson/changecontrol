@@ -3,7 +3,7 @@
 const File = require('mongoose').model('File');
 const express = require('express');
 const app = express();
-const config = require('../config/config.js'); 
+const config = require('../config/config.js');
 const fs = require('fs');
 
 const uploaded = config.uploaded;
@@ -14,12 +14,16 @@ exports.downloadFile = function (req, res) {
     const expfilename = filename.slice(6);
     let file = '';
 
+    console.log(uploaded);
+
     if(fileType == 'exp'){
         filename = filename.slice(6);
         file = uploaded + filename;
     } else {
         file = uploaded + filename;
     }
+
+    console.log(file);
 
     if (fs.existsSync(file)) {
         res.download(file, filename, function(err){
@@ -38,7 +42,7 @@ exports.downloadFile = function (req, res) {
 
     } else {
         res.redirect('/');
-        
+
         File.remove({fsFilePath: expfilename}, function (err) {
             if (err) {console.log(err);}
         });
@@ -112,7 +116,7 @@ function fileDeletion(id) {
     File.findById(id, function (err, doc){
 
         if(doc){
-        
+
             File.remove({_id: id}, function (err) {
                 if (err) {console.log(err);}
             });
@@ -120,7 +124,7 @@ function fileDeletion(id) {
             fs.unlink(uploaded + doc.fsFilePath, function (err) {
                 if (err) {console.log(err)};
             });
-        }    
+        }
     });
 }
 

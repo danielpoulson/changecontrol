@@ -1,8 +1,7 @@
 {
-  "name": "webchangecontrol",
+  "name": "changecontrol",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Change Control Program Infrasture",
   "scripts": {
     "start": "nf start -p 3010",
     "start:prod": "NODE_ENV=production node server/server.js",
@@ -20,15 +19,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danielpoulson/webchangecontrol.git"
+    "url": "git+https://github.com/danielpoulson/changecontrol.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/danielpoulson/webchangecontrol/issues"
+    "url": "https://github.com/danielpoulson/changecontrol/issues"
   },
-  "homepage": "https://github.com/danielpoulson/webchangecontrol#readme",
+  "homepage": "https://github.com/danielpoulson/changecontrol#readme",
   "dependencies": {
     "body-parser": "^1.16.1",
     "cookie-parser": "^1.4.3",
