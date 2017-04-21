@@ -3,7 +3,6 @@ const config = require('./config/config');
 require('./config/auth');
 const mongoose = require('./config/mongoose');
 const expressfile = require('./config/express');
-const {bindData} = require('./helpers/data-bind');
 
 
 process.env.PORT = config.port;
@@ -17,9 +16,9 @@ require('./config/passport')();
 require('./routes')(app);
 
 
-app.get('*', function (req, res) {
-    res.render('index.html');
-});
+// app.get('*', function (req, res) {
+//     res.render('index.html');
+// });
 
 /*eslint no-console: 0*/
 app.listen(process.env.PORT, function() {
