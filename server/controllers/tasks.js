@@ -1,3 +1,4 @@
+//SYNC 11/03/2017 DP
 "use strict";
 /*eslint no-console: 0*/
 const Task = require('mongoose').model('Task');
@@ -59,7 +60,7 @@ exports.deleteTask = function(req, res) {
             res.status(200).send(taskId);
         });
 
-        write_to_log("DELETED TASK - " + "(" + SourceId + " - " + taskTitle + ") by " + user);
+        utils.write_to_log("DELETED TASK - " + "(" + SourceId + " - " + taskTitle + ") by " + user);
     });
 
 

@@ -1,3 +1,4 @@
+//Portable
 const express = require('express');
 const router = express.Router();
 const files = require('../controllers/files');
@@ -18,7 +19,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
     router.get('/:files', files.getFiles);
-//  router.get('/api/filecount/:id', files.getFileCount);
     router.put('/booked/:id', files.updateFileBook);
     router.get('/upload/:file', files.downloadFile);
     router.post('/upload', upload.any(), files.uploadFile);

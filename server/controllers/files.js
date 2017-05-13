@@ -1,9 +1,10 @@
+//SYNC 11/03/2017 DP
 "use strict";
 /*eslint no-console: 0*/
 const File = require('mongoose').model('File');
 const express = require('express');
+const config = require('../config/config.js'); 
 const app = express();
-const config = require('../config/config.js');
 const fs = require('fs');
 
 const uploaded = config.uploaded;
@@ -53,7 +54,7 @@ exports.uploadFile = function (req, res) {
     const fileData = {};
     const docName = req.body.docName;
 
-    const myRe = /C{2}\d{6}\s[-]\s/;
+    const myRe = config.regex;
     const myArray = myRe.exec(docName);
 
 
@@ -107,7 +108,7 @@ exports.deletefile = function (req, res) {
     const id = req.params.id;
 
     fileDeletion(id);
-    res.sendStatus(200);
+    res.sendStatus(204);
 
 };
 

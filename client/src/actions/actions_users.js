@@ -1,3 +1,4 @@
+//SYNC 11/03/2017 DP
 import axios from 'axios';
 
 export const GET_USER = 'GET_USER';
