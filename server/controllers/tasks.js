@@ -13,11 +13,13 @@ const uploaded = config.uploaded;
 exports.getTasks = function(req, res) {
     const status = req.params.status;
     const capa = req.params.capa || 0;
+    
+    const tasks = Task
+        .find({TKStat: { $lte: status }})
+        .select({SourceId: 1, TKName: 1, TKTarg: 1, TKStart:1, TKChamp:1, TKStat:1, TKCapa:1})
+        .sort({TKTarg:1});
 
-    Task.find({$and: [{TKStat: { $lte: status }}, { TKCapa: { $gte: capa }}]}, { SourceId: true, TKName: true, TKTarg: true, TKStart:true, TKChamp:true, TKStat:true, TKCapa:true})
-        .sort({TKTarg:1}).exec(function(err, collection) {
-        res.send(collection);
-    });
+    tasks.then(tasks => res.send(tasks));
 };
 
 exports.getProjectTaskList = function(req, res) {
