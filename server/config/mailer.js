@@ -15,7 +15,7 @@ const transport = nodemailer.createTransport({
   }
 });
 
-const generateHTML = (options = {}) => {
+const generateHTML = (options) => {
   const html = pug.renderFile(`${config.rootPath}server/views/mail.pug`, options);
   // const inlined = juice(html); //in line css styles for emails
   return html;
