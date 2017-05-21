@@ -1,6 +1,7 @@
 # Ignore My Files #
 server/config/config.js
 build
+*.env
 
 build# Ignore Visual Studio  Project #
 ###################

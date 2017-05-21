@@ -6,7 +6,7 @@ export default class DownloadButton extends React.Component {
     super(props);
     this.onDownload = this.onDownload.bind(this);
   }
-  onDownload() {
+  onDownload(e) {
 
       window.location.href = `/api/files/upload/${this.props.fileLoad}`;
 

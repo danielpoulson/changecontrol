@@ -15,7 +15,6 @@ exports.downloadFile = function (req, res) {
     const expfilename = filename.slice(6);
     let file = '';
 
-    console.log(uploaded);
 
     if(fileType == 'exp'){
         filename = filename.slice(6);
@@ -23,8 +22,6 @@ exports.downloadFile = function (req, res) {
     } else {
         file = uploaded + filename;
     }
-
-    console.log(file);
 
     if (fs.existsSync(file)) {
         res.download(file, filename, function(err){

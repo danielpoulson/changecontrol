@@ -2,6 +2,7 @@
 "use strict";
 /*eslint no-console: 0*/
 const Task = require('mongoose').model('Task');
+const users = require('../controllers/users');
 const files = require('../controllers/files');
 const mailer = require('../config/mailer.js');
 const config = require('../config/config.js'); 
@@ -38,8 +39,20 @@ exports.updateTask = function(req, res) {
         if (err) return handleError(err);
         res.sendStatus(200);
 
-        if(newOwner){
-          mailer.createEmail(req.body);
+        if(newOwner){   
+            const user = users.getUserEmail(req.body.TKChamp);
+
+            user.then(user => {
+                mailer.send({
+                  toEmail: user[0].email,
+                  subject: 'Change Control Task',
+                  emailType: 'Change Control Task',
+                  changeAss: '',
+                  changeNo: req.body.SourceId,
+                  action: `Action to complete : ${req.body.TKName}`,
+                  target: utils.dpFormatDate(req.body.TKTarg)
+                });
+            });
         }
     });
 };
@@ -63,8 +76,6 @@ exports.deleteTask = function(req, res) {
         utils.write_to_log("DELETED TASK - " + "(" + SourceId + " - " + taskTitle + ") by " + user);
     });
 
-
-
 };
 
 exports.createTask = function(req, res, next) {
@@ -77,7 +88,19 @@ exports.createTask = function(req, res, next) {
             return res.send({reason:err.toString()});
         }
         res.status(200).send(task);
-        mailer.createEmail(req.body);
+        const user = users.getUserEmail(req.body.TKChamp);
+
+        user.then(user => {
+            mailer.send({
+              toEmail: user[0].email,
+              subject: 'Change Control Task',
+              emailType: 'Change Control Task',
+              changeAss: '',
+              changeNo: task.SourceId,
+              action: `Action to complete : ${task.TKName}`,
+              target: utils.dpFormatDate(task.TKTarg)
+            });
+        });
     });
 };
 

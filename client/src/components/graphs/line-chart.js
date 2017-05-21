@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import d3 from 'd3';
 // import tip from 'd3-tip';
-import _ from 'lodash';
 
 //d3.tip = tip;
 
@@ -20,6 +19,9 @@ class LineGraph extends Component{
 
     const dates = _.map(data, 'date');
     const counts = _.map(data, 'count');
+
+    const dates = data.map( d => d.date );
+    const counts = data.map( d => d.count );
 
     /* Initialize tooltip */
     // let tip = d3.tip()

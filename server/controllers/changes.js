@@ -42,7 +42,20 @@ exports.createChange = function(req, res, next) {
                 return res.send({reason:err.toString()});
             }
             res.status(200).send(_changes);
-            createEmail(_changes.CC_TDate, _changes.CC_No, _changes.CC_Descpt, _changes.CC_Champ);
+            
+            const user = users.getUserEmail(_changes.CC_Champ);
+
+            user.then(user => {
+              mailer.send({
+                toEmail: user[0].email,
+                subject: 'Change Control',
+                emailType: 'Change Control',
+                changeAss: _changes.CC_Descpt,
+                changeNo: _changes.CC_No,
+                action: '',
+                target: utils.dpFormatDate(_changes.CC_TDate)
+              });
+            });
         });
     });
 };
@@ -57,7 +70,19 @@ exports.updateChange = function(req, res) {
     res.sendStatus(200);
 
     if (_newOwner === true) {
-      createEmail(_changes.CC_TDate, _changes.CC_No, _changes.CC_Descpt, _changes.CC_Champ);
+      const user = users.getUserEmail(_changes.CC_Champ);
+
+      user.then(user => {
+        mailer.send({
+          toEmail: user[0].email,
+          subject: 'Change Control',
+          emailType: 'Change Control',
+          changeAss: _changes.CC_Descpt,
+          changeNo: _changes.CC_No,
+          action: '',
+          target: utils.dpFormatDate(_changes.CC_TDate)
+        });
+      });
     }
 
   });
@@ -76,24 +101,6 @@ exports.updateChangeComment = function(req, res) {
      res.send(_log);
    });
 };
-
-
-function createEmail(CC_TDate, CC_No, CC_Descpt, CC_Champ){
-  const _Target = utils.dpFormatDate(CC_TDatutilsailType = "Change Control");
-  const emailActivity = `<b>Change Control - </b><em>${CC_No}</em> </br>
-      <b> Deviation Description:</b><i>${CC_Descpt} <b> Target Date</b> ${_Target}</i>`;
-
-  const p = users.getUserEmail(CC_Champ).exec();
-
-  p.then(function(res){
-    console.log(res);
-      const _toEmail = res[0].email;
-      mailer.sendMail(_toEmail, emailType, emailActivity);
-  }).catch(function (err) {
-    console.log(err);
-  });
-
-}
 
 exports.getChangeById = function(req, res) {
     Change.findOne({CC_No:req.params.id}).exec(function(err, change) {

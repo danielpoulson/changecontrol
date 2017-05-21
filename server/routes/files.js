@@ -13,15 +13,15 @@ const storage = multer.diskStorage({
 
   filename: function (req, file, cb) {
     cb(null, file.fieldname);
-  }
+  }	
 });
 
 const upload = multer({ storage: storage });
 
-    router.get('/:files', files.getFiles);
-    router.put('/booked/:id', files.updateFileBook);
-    router.get('/upload/:file', files.downloadFile);
-    router.post('/upload', upload.any(), files.uploadFile);
-    router.delete('/delete/:id', files.deletefile);
+router.get('/:files', files.getFiles);
+router.put('/booked/:id', files.updateFileBook);
+router.get('/upload/:file', files.downloadFile);
+router.post('/upload', upload.any(), files.uploadFile);
+router.delete('/delete/:id', files.deletefile);
 
 module.exports = router;

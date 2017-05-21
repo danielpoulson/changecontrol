@@ -1,5 +1,6 @@
 import { ADD_TASK, EDIT_TASK, DELETE_TASK, GET_TASKS, LOAD_PAGE_TASKS, GET_PROJECT_TASKS, SET_CAPA } from '../actions/actions_tasks';
 import { pagedList, removeByIndex, searchData } from '../utils/data-functions';
+import findIndex from 'lodash/fp/findIndex';
 
 const initialState = {
   alldata: [],
@@ -59,9 +60,11 @@ export default function (state = initialState, action) {
 
     case EDIT_TASK: {
       _data = action.payload;
-
-      const index = state.alldata.findIndex(item => item._id === _data._id);
-      const ctIndex = state.ctlist.findIndex(item => item._id === _data._id);
+      // findIndex is not availible in IE11
+      // const index = state.alldata.findIndex(item => item._id === _data._id);
+      // const ctIndex = state.ctlist.findIndex(item => item._id === _data._id);
+      const index = findIndex(state.alldata, item => item._id === _data._id);
+      const ctIndex = findIndex(state.ctlist, item => item._id === _data._id);
 
       if (index === -1) {
         alldata = [

@@ -1,4 +1,6 @@
-import _ from 'lodash';
+import sortBy from "lodash/fp/sortBy";
+import compose from "lodash/fp/compose";
+import filter from "lodash/fp/filter";
 const per_page = 15;
 const init_page = 1;
 
@@ -9,7 +11,7 @@ export function pagedList(data, page) {
 }
 
 export function searchData(data, searchText, sortColumn, columns) {
-    const reg1 = new RegExp(`${searchText}.*`, 'i');
+  const reg1 = new RegExp(`${searchText}.*`, 'i');
 
   function search(item) {
 
@@ -18,14 +20,22 @@ export function searchData(data, searchText, sortColumn, columns) {
     }
     return false;
   }
+ 
+  let _sortColumn = sortColumn;
 
-  if (searchText === null) {
-    return _.sortBy(data, sortColumn);
+  if (typeof(sortColumn) === 'undefined') {
+    sortColumn = columns[0];
   }
 
-  let _sortColumn = '';
-  _sortColumn = sortColumn || columns[0];
-  const newList = _.chain(data).filter(search).sortBy(_sortColumn).value();
+  if (searchText === null) {
+    return sortBy(sortColumn, data);
+  }
+
+ const newList = compose(
+      sortBy(sortColumn),
+      filter(search)
+      )(data);
+
   return newList;
 }
 
