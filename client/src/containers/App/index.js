@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 /* global styles for app */
@@ -23,6 +22,7 @@ export class App extends Component {
     if (authorised === 'true') {
       this.props.setUser();
     }
+    
   }
 
   render() {

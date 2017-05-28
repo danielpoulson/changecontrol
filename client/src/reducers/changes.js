@@ -25,6 +25,7 @@ export default function (state, action) {
   switch (action.type) {
 
     case ADD_CHANGE:
+    
       _data = action.payload.data;
       alldata = [
         ...state.alldata,
@@ -34,7 +35,8 @@ export default function (state, action) {
       return {
         ...state,
         alldata,
-        paged
+        paged,
+        total: alldata.length
       };
 
     case EDIT_CHANGE:
@@ -97,6 +99,14 @@ export default function (state, action) {
         total_pages: Math.ceil(alldata.length / per_page),
         paged
       };
+    }
+
+    case 'SET_CHANGES': {
+      return {
+        ...state,
+        page: 1,
+        searchText: ''
+      }
     }
 
     default:

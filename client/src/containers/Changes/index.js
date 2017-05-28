@@ -7,7 +7,7 @@ import Pagination from '../../components/Common/pagination';
 import SearchBox from '../../components/Common/search-box';
 
 /* actions */
-import { getChange, getChanges, addChange, loadPage, exportChanges } from '../../actions/actions_changes';
+import { getChange, getChanges, addChange, loadPage, exportChanges, setChanges } from '../../actions/actions_changes';
 import { setMain } from '../../actions/actions_main';
 import { getFiles } from '../../actions/actions_files';
 
@@ -111,6 +111,7 @@ class Changes extends Component {
   newChange() {
     this.props.getChange('new');
     this.props.setMain({ MainId: 'new', CurrentMode: 'change', loading: false });
+    this.props.setChanges();
     this.context.router.push('/change/new');
   }
 
@@ -200,4 +201,4 @@ Changes.childContextTypes = {
 };
 
 export default connect(state => ({ changes: state.changes, user: state.main.user }),
-  { getChange, getChanges, addChange, loadPage, exportChanges, setMain, getFiles })(Changes);
+  { getChange, getChanges, addChange, loadPage, exportChanges, setChanges, setMain, getFiles })(Changes);

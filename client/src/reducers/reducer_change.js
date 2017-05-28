@@ -16,7 +16,6 @@ export default function (state = initialState, action) {
       const _change = action.payload.data || initialState;
 
       return _change;
-
     }
 
     case CREATE_LOG: {

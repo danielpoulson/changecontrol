@@ -21,7 +21,7 @@ require('./config/passport')();
 require('./routes')(app);
 
 app.get('*', function (req, res) {
-    res.render('index');
+    //res.render('index');
 });
 
 /*eslint no-console: 0*/

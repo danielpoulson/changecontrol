@@ -64,7 +64,11 @@ exports.updatePassword = function(req, res) {
 };
 
 exports.getLoggedUser = function(req, res) {
-  res.send({success:true, user: makeUserSafe(req.user)});
+  if(typeof req.user !== 'undefined') {   
+    res.send({success:true, user: makeUserSafe(req.user)});
+  } else {
+    res.sendStatus(203);
+  }
 };
 
 exports.getUser = function(req, res) {

@@ -109,3 +109,9 @@ export function exportChanges(search) {
     payload: request
   };
 }
+
+export function setChanges() {
+  return {
+    type: 'SET_CHANGES'
+  }
+}

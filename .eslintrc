@@ -1,7 +1,6 @@
 {
   "extends": [
-    "eslint:recommended",
-    "plugin:import/warnings"
+    "eslint:recommended"
   ],
   "parser": "babel-eslint",
   "env": {
