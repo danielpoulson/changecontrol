@@ -1,14 +1,21 @@
 //SYNC 11/03/2017 DP
-import React, { PropTypes } from 'react';
+import React from 'react';
 import moment from 'moment';
 import { getExt } from '../../utils/status';
 import DownloadButton from '../../components/Common/download-button';
 import BookoutButton from '../../components/Common/bookout-button';
 
+type Props = {
+  file: {},
+  removeFile: any,
+  exportFiles: string,
+  user: {},
+  createLog: any,
+  deleteFile: any,
+  bookoutFile: any
+}
 
-const FileRow = (props) => {
-
-  const file = props.file;
+const FileRow = ({ file, removeFile, exportFiles, user, createLog, deleteFile, bookoutFile}: Props) => {
   const fullFileName = `${file.fsSource} - ${file.fsFileName}.${file.fsFileExt}`;
 
   return (
@@ -19,34 +26,24 @@ const FileRow = (props) => {
       <td>{moment(new Date(file.fsAddedAt)).format('DD/MM/YYYY')}</td>
       <td>
         <DownloadButton
-          removeFile={props.removeFile}
+          removeFile={removeFile}
           fileLoad={fullFileName}
           fileId={file._id}
-          export={props.export} />
+          exportFiles={exportFiles} />
         </td>
-        <td className={props.export}>
+        <td className={exportFiles}>
           <BookoutButton
-            user={props.user}
+            user={user}
             fileLoad={fullFileName}
             source={file.fsSource}
             fileId={file._id}
             fsBooked={file.fsBooked}
-            createLog={props.createLog}
-            deleteFile={props.deleteFile}
-            bookoutFile={props.bookoutFile} />
+            createLog={createLog}
+            deleteFile={deleteFile}
+            bookoutFile={bookoutFile} />
         </td>
     </tr>
   );
-};
-
-FileRow.propTypes = {
-  file: PropTypes.object,
-  removeFile: PropTypes.func.isRequired,
-  export: PropTypes.string,
-  user: PropTypes.object.isRequired,
-  createLog: PropTypes.func.isRequired,
-  deleteFile: PropTypes.func.isRequired,
-  bookoutFile: PropTypes.func.isRequired
 };
 
 export default FileRow;

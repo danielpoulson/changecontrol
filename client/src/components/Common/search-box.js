@@ -1,6 +1,11 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
-const SearchBox = ({ searchText, onChange }) => {
+type Props = {
+  searchText: string,
+  onChange: any
+}
+
+const SearchBox = ({ searchText, onChange }: Props) => {
   const divStyle = { paddingRight: 15 };
   const spanStyle = {
     background: '#71ABFF',
@@ -19,11 +24,6 @@ const SearchBox = ({ searchText, onChange }) => {
       <span style={spanStyle} className="input-group-addon glyphicon glyphicon-search"></span>
     </div>
   );
-};
-
-SearchBox.propTypes = {
-  searchText: PropTypes.string,
-  onChange: PropTypes.func
 };
 
 export default SearchBox;

@@ -1,12 +1,27 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import TextArea from '../../components/Common/text-area';
 import TextInputTask from '../../components/Common/form-text-input';
 import DateTimePicker from '../../components/Common/date-picker';
 import SelectInput from '../../components/Common/select-input';
 
+type Props = {
+  onChange: any,
+  errors: any,
+  onDateChange: any,
+  onSaveTask: any,
+  onCancel: any,
+  onDeleteTask: any,
+  hideDelete: string,
+  submitting: bool,
+  status: Array<mixed>,
+  task: any,
+  users: Array<mixed>
+}
+
 const TaskForm = ({
     errors, task, status, users, onSaveTask, hideDelete, onDeleteTask, onChange, onDateChange, onCancel, submitting
-  }) => {
+  }: Props) => {
 
   return (
     <form className="form form-horizontal" >
@@ -70,32 +85,24 @@ const TaskForm = ({
         rows="6" />
 
       <div className="col-sm-9 col-md-offset-2">
-        <button className="btn btn-success pull-left" disabled={submitting} onClick={onSaveTask}>
-          {submitting ? <i /> : <i />} Save Task
-        </button>
-        <button className="btn btn-info dp-margin-10-LR" disabled={submitting} onClick={onCancel}>
-        Cancel
-        </button>
-        <button className={hideDelete} disabled={submitting} onClick={onDeleteTask}>
-          Delete
-        </button>
+        <Link to={`/change/${task.SourceId}`}>
+          <button className="btn btn-success pull-left" disabled={submitting} onClick={onSaveTask}>
+            {submitting ? <i /> : <i />} Save Task
+          </button>
+        </Link>
+        <Link to={`/change/${task.SourceId}`}>
+          <button className="btn btn-info dp-margin-10-LR" disabled={submitting} onClick={onCancel}>
+          Cancel
+          </button>
+        </Link>
+        <Link to={`/change/${task.SourceId}`}>
+          <button className={hideDelete} disabled={submitting} onClick={onDeleteTask}>
+            Delete
+          </button>
+        </Link>
       </div>
     </form>
-	);
+  );
 };
 
-TaskForm.propTypes = {
-  onChange: PropTypes.func,
-  errors: PropTypes.object,
-  onDateChange: PropTypes.func.isRequired,
-  onSaveTask: PropTypes.func,
-  onCancel: PropTypes.func.isRequired,
-  onDeleteTask: PropTypes.func.isRequired,
-  hideDelete: PropTypes.string,
-  submitting: React.PropTypes.bool,
-  status: PropTypes.array.isRequired,
-  task: PropTypes.object.isRequired,
-  users: PropTypes.array.isRequired
-	};
-
-  export default TaskForm;
+export default TaskForm;

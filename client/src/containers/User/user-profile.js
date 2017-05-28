@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import UserProfileForm from '../../components/User/user-profile-form';
 import UserSelect from '../../components/User/user-select';
@@ -9,6 +9,16 @@ import toastr from 'toastr';
 import { getUser, getUsers, createUser, resetUser, saveUser, deleteUser } from '../../actions/actions_users';
 
 class UserProfile extends Component {
+  props: {
+    user: any,
+    users: any,
+    resetUser: any,
+    getUser: any,
+    getUsers: any,
+    createUser: any,
+    saveUser: any,
+    deleteUser: any
+  }
 
   constructor(props, context) {
     super(props, context);
@@ -135,27 +145,7 @@ class UserProfile extends Component {
   }
 }
 
-UserProfile.propTypes = {
-  user: PropTypes.object,
-  users: PropTypes.array,
-  resetUser: PropTypes.func,
-  getUser: PropTypes.func,
-  getUsers: PropTypes.func,
-  createUser: PropTypes.func,
-  saveUser: PropTypes.func,
-  deleteUser: PropTypes.func
-
-};
-
-UserProfile.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
-
-UserProfile.childContextTypes = {
-  location: React.PropTypes.object
-};
-
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     user: state.user,
     users: usersFormattedForDropdown(state.users)

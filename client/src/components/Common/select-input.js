@@ -1,14 +1,26 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+
+type Props = {
+  name: string,
+  label: string,
+  onChange: any,
+  defaultOption: string,
+  error: boolean,
+  inputdiv: string,
+  labelstyle: string,
+  options: mixed[],
+  value: any
+}
 // TODO: (5) @easy error box refine formatting
-const SelectInput = ({name, label, inputdiv, labelstyle, onChange, defaultOption, value, error, options}) => {
-  let wrapperClass = "form-control";
+const SelectInput = ({name, label, inputdiv, labelstyle, onChange, defaultOption, value, error, options}: Props) => {
+  let wrapperClass = 'form-control';
 
   if (error) {
-    wrapperClass += " has-error";
+    wrapperClass += ' has-error';
   }
 
   return (
-    <div className="">
+    <div className=''>
 
       <div className="form-group">
         <label className={labelstyle} htmlFor={name}>{label}</label>
@@ -30,18 +42,6 @@ const SelectInput = ({name, label, inputdiv, labelstyle, onChange, defaultOption
 
     </div>
   );
-};
-
-SelectInput.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  defaultOption: PropTypes.string,
-  error: PropTypes.bool,
-  inputdiv: PropTypes.string,
-  labelstyle: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.object),
-  value: PropTypes.any
 };
 
 export default SelectInput;

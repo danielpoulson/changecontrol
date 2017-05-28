@@ -10,7 +10,7 @@ const FileExport = () => (
       </div>
     </div>
     <FileList
-      export="hidden" />
+      exportFiles="hidden" />
   </div>
 );
 

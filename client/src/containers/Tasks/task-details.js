@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import TaskForm from '../../components/Tasks/task-form';
@@ -11,6 +11,24 @@ import * as taskActions from '../../actions/actions_tasks';
 import * as mainActions from '../../actions/actions_main';
 
 class TaskDetail extends React.Component {
+  props: {  
+    deleteTask: any,
+    main: any,
+    mainActions: any,
+    newTask: any,
+    setLoading: any,
+    editTask: any,
+    addTask: any,
+    task: any,
+    taskActions: any,
+    users: any,
+    match: {
+      params: {
+        id: string
+      }
+    }
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -21,7 +39,7 @@ class TaskDetail extends React.Component {
       hideDelete: props.main.user.role !== 'admin' || props.newTask === true ? 'hidden' : 'btn btn-danger',
       newTask: false,
       submitting: false,
-      taskId: props.location.pathname.split('/')[2],
+      taskId: props.match.params.id,
       task: Object.assign({}, props.task),
       status: [
         { value: 1, text: 'Task - Not Started (New)' },
@@ -49,7 +67,6 @@ class TaskDetail extends React.Component {
   cancelTask(event) {
     event.preventDefault();
     this.props.mainActions.setLoading({ loading: false });
-    this.taskNav(this.props.main.MainId);
   }
 
   deleteTask(event) {
@@ -58,7 +75,6 @@ class TaskDetail extends React.Component {
     const _id = this.state.taskId;
     this.props.taskActions.deleteTask(_id);
     toastr.error('Task has been deleted', 'Task Detail', { timeOut: 1000 });
-    this.taskNav(this.props.main.MainId);
   }
 
   saveTask(event) {
@@ -86,15 +102,6 @@ class TaskDetail extends React.Component {
 
     toastr.success('Task has been saved', 'Task Detail', { timeOut: 1000 });
     this.props.mainActions.setLoading({ loading: false });
-    this.taskNav(_SourceId);
-  }
-
-  taskNav(id) {
-    if (this.props.main.CurrentMode === 'project') {
-      this.context.router.push(`/project/${id}`);
-    } else {
-      this.context.router.push(`/change/${id}`);
-    }
   }
 
   updateTaskState(event) {
@@ -151,29 +158,7 @@ class TaskDetail extends React.Component {
   }
 }
 
-TaskDetail.propTypes = {
-  location: PropTypes.object,
-  deleteTask: PropTypes.func,
-  main: PropTypes.object,
-  mainActions: PropTypes.object,
-  newTask: PropTypes.func,
-  setLoading: PropTypes.func,
-  editTask: PropTypes.func,
-  addTask: PropTypes.func,
-  task: PropTypes.object,
-  taskActions: PropTypes.object,
-  users: PropTypes.array
-};
-
-TaskDetail.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
-
-TaskDetail.childContextTypes = {
-  location: React.PropTypes.object
-};
-
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
 
   return {
     main: state.main,

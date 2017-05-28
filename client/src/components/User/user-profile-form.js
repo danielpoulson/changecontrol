@@ -1,9 +1,20 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import TextInputTask from '../../components/Common/form-text-input';
 import SelectInput from '../../components/Common/select-input';
 import './user-style.css';
 
-const UserProfileForm = ({ errors, user, deleteUser, onChange, onCancel, onSave, roleSelect, newUser}) => {
+type Props = {
+  errors: {},
+  onChange: any,
+  onSave: any,
+  onCancel: any,
+  deleteUser: any,
+  newUser: boolean,
+  roleSelect: mixed[],
+  user: {}
+}
+
+const UserProfileForm = ({ errors, user, deleteUser, onChange, onCancel, onSave, roleSelect, newUser}: Props) => {
 
   return (
     <div className="col-sm-12">
@@ -79,17 +90,6 @@ const UserProfileForm = ({ errors, user, deleteUser, onChange, onCancel, onSave,
         </form>
     </div>
   );
-};
-
-UserProfileForm.propTypes = {
-  errors: PropTypes.object,
-  onChange: PropTypes.func,
-  onSave: PropTypes.func,
-  onCancel: PropTypes.func,
-  deleteUser: PropTypes.func.isRequired,
-  newUser: PropTypes.bool,
-  roleSelect: PropTypes.array.isRequired,
-  user: PropTypes.object.isRequired
 };
 
 export default UserProfileForm;

@@ -1,11 +1,16 @@
 //SYNC 11/03/2017 DP
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Dropzone from 'react-dropzone';
 import toastr from 'toastr';
 import Request from 'superagent';
 import {fileRegex} from '../../utils/helpers';
 
 class FileZone extends React.Component {
+  props: {
+    sourceId: string,
+    addFile: any,
+    user: {}
+  }
   constructor(props) {
     super(props);
     this.onDrop = this.onDrop.bind(this);
@@ -51,12 +56,5 @@ class FileZone extends React.Component {
     );
   }
 }
-
-FileZone.propTypes = {
-  sourceId: PropTypes.string,
-  addFile: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
-
-};
 
 export default FileZone;

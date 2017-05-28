@@ -1,5 +1,5 @@
 //SYNC 12/03/2017 DP
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FileTable from '../../components/Files/file-table';
 import FileZone from '../../components/Files/file-zone';
@@ -10,6 +10,20 @@ import { setFiletabCount } from '../../actions/actions_main';
 import { createLog } from '../../actions/actions_changes'; //Not Synced
 
 class FileList extends Component {
+  props: {
+    addFile: any,
+    bookoutFile: any,
+    createLog: any,
+    deleteFile: any,
+    exportFiles: string,
+    files: any,
+    filesTab: string,
+    getFiles: any,
+    removeFile: any,
+    setFiletabCount: any,
+    sourceId: string,
+    user: any
+  }
   constructor(props) {
     super(props);
     this.state = {};
@@ -63,13 +77,13 @@ class FileList extends Component {
             <FileTable
               files={this.props.files}
               user={this.props.user}
-              export={this.props.export}
+              exportFiles={this.props.exportFiles}
               createLog={this.onCreateLog}
               deleteFile={this.onDeleteFile}
               removeFile={this.onRemoveFile}
               bookoutFile={this.onBookoutFile} />
           </div>
-          <div className={this.props.export}>
+          <div className={this.props.exportFiles}>
             <div className="col-sm-1">
               <FileZone
                 addFile={this.onAddFile}
@@ -82,21 +96,6 @@ class FileList extends Component {
     );
   }
 }
-
-FileList.propTypes = {
-  addFile: PropTypes.func,
-  bookoutFile: PropTypes.func,
-  createLog: PropTypes.func,
-  deleteFile: PropTypes.func,
-  export: PropTypes.string,
-  files: PropTypes.array,
-  filesTab: PropTypes.string,
-  getFiles: PropTypes.func,
-  removeFile: PropTypes.func,
-  setFiletabCount: PropTypes.func,
-  sourceId: PropTypes.string,
-  user: PropTypes.object
-};
 
 export default connect(state => ({ files: state.files, user: state.main.user }),
   {

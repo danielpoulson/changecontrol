@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ChangeForm from '../../components/Changes/change-form';
 import {changeFormIsValid} from './change-form.validation';
@@ -18,6 +18,25 @@ import { getProjectTasks } from '../../actions/actions_tasks';
 import { setMain } from '../../actions/actions_main';
 
 class ChangeDetail extends Component {
+  props: {
+    addChange: any,
+    change: any,
+    ctTotal: number,
+    createLog: any,
+    closeChange: any,
+    editChange: any,
+    getChange: any,
+    getProjectTasks: any,
+    main: any,
+    setMain: any,
+    tasklist: any,
+    users: any,
+    match: {
+      params: {
+        id: string
+      }
+    }
+  }
 
   constructor(props, context) {
     super(props, context);
@@ -56,7 +75,7 @@ class ChangeDetail extends Component {
   }
 
   componentWillMount() {
-    const CC_No = this.props.location.pathname.split('/')[2];
+    const CC_No = this.props.match.params.id;
     if (this.props.main.loading === true) {
       this.props.getProjectTasks(CC_No);
     }
@@ -118,20 +137,20 @@ class ChangeDetail extends Component {
     return this.setState({change: _change});
   }
 
-saveChange(event) {
-  event.preventDefault();
-  let _change = this.state.change;
+  saveChange(event) {
+    event.preventDefault();
+    let _change = this.state.change;
 
-  let validation = changeFormIsValid(_change);
-  this.setState({errors: validation.errors});
-  this.setState({errorsObj: validation.errorsObj});
+    let validation = changeFormIsValid(_change);
+    this.setState({errors: validation.errors});
+    this.setState({errorsObj: validation.errorsObj});
 
-  if(!validation.formIsValid) {
-    return;
-  }
+    if(!validation.formIsValid) {
+      return;
+    }
 
 
-  if (this.state.ccNo !== 'new') {
+    if (this.state.ccNo !== 'new') {
       _change.newOwner = _change.CC_Champ !== this.props.change.CC_Champ;
 
       if(_change.CC_Stat >= 4 ) {
@@ -248,35 +267,11 @@ saveChange(event) {
         <FileList
           filesTab={this.state.FilesTab}
           refreshChange={this.onRefresh}
-          sourceId={this.props.location.pathname.split('/')[2]} />
+          sourceId={this.props.match.params.id} />
       </div>
     );
   }
 }
-
-ChangeDetail.propTypes = {
-  addChange: PropTypes.func,
-  change: PropTypes.object,
-  ctTotal: PropTypes.number,
-  createLog: PropTypes.func,
-  closeChange: PropTypes.func,
-  editChange: PropTypes.func,
-  getChange: PropTypes.func,
-  getProjectTasks: PropTypes.func,
-  main: PropTypes.object,
-  location: PropTypes.object,
-  setMain: PropTypes.func,
-  tasklist: PropTypes.array,
-  users: PropTypes.array
-};
-
-ChangeDetail.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
-
-ChangeDetail.childContextTypes = {
-  location: React.PropTypes.object
-};
 
 const mapStateToProps = (state) => {
   return {

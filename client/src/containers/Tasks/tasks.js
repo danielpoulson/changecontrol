@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import TaskList from '../../components/Tasks/task-list';
@@ -9,14 +10,22 @@ import { getAllTasks, loadPageTask, exportTasks } from '../../actions/actions_ta
 import { getFiles } from '../../actions/actions_files';
 
 class Tasks extends Component {
+  props: {
+    user: any,
+    tasks: any,
+    exportTasks: any,
+    getAllTasks: any,
+    getFiles: any,
+    loadPageTask: any
+  }
   constructor(props) {
     super(props);
     this.state = {
-        activePage: 0,
-        count: 0,
-        numPage: 15,
-        txtSearch: ''
-      };
+      activePage: 0,
+      count: 0,
+      numPage: 15,
+      txtSearch: ''
+    };
 
     this.onSearchText = this.onSearchText.bind(this);
     this.onSortByClick = this.onSortByClick.bind(this);
@@ -74,8 +83,6 @@ class Tasks extends Component {
     };
 
     this.props.exportTasks(info);
-    // this.props.getFiles('exp');
-    this.context.router.push('/export');
   }
 
   render() {
@@ -100,11 +107,13 @@ class Tasks extends Component {
 
         <div className="row">
           <div className="col-sm-6">
-            <button
-              className="btn btn-info"
-              onClick={this.exportTask} >
-              Export List
-            </button>
+            <Link to="/export">
+              <button
+                className="btn btn-info"
+                onClick={this.exportTask} >
+                Export List
+              </button>
+            </Link>
           </div>
 
           <div className="col-sm-6">
@@ -124,23 +133,6 @@ class Tasks extends Component {
     );
   }
 }
-
-Tasks.propTypes = {
-  user: PropTypes.object,
-  tasks: PropTypes.object,
-  exportTasks: PropTypes.func,
-  getAllTasks: PropTypes.func,
-  getFiles: PropTypes.func,
-  loadPageTask: PropTypes.func
-};
-
-Tasks.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
-
-Tasks.childContextTypes = {
-  location: React.PropTypes.object
-};
 
 export default connect(state => ({ tasks: state.tasks, user: state.main.user }),
   { getAllTasks, loadPageTask, exportTasks, getFiles })(Tasks);

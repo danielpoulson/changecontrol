@@ -1,6 +1,6 @@
-import sortBy from "lodash/fp/sortBy";
-import compose from "lodash/fp/compose";
-import filter from "lodash/fp/filter";
+import sortBy from 'lodash/fp/sortBy';
+import compose from 'lodash/fp/compose';
+import filter from 'lodash/fp/filter';
 const per_page = 15;
 const init_page = 1;
 
@@ -21,7 +21,7 @@ export function searchData(data, searchText, sortColumn, columns) {
     return false;
   }
  
-  let _sortColumn = sortColumn;
+  // let _sortColumn = sortColumn;
 
   if (typeof(sortColumn) === 'undefined') {
     sortColumn = columns[0];
@@ -31,7 +31,7 @@ export function searchData(data, searchText, sortColumn, columns) {
     return sortBy(sortColumn, data);
   }
 
- const newList = compose(
+  const newList = compose(
       sortBy(sortColumn),
       filter(search)
       )(data);

@@ -1,9 +1,13 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
-const Pagination = (props) => {
-  const activePage = props.activePage;
-  const count = props.count;
-  const numPage = props.numPage;
+type Props = {
+  activePage: number,
+  count: number,
+  numPage: number,
+  getPage: any
+}
+
+const Pagination = ({ activePage, count, numPage, getPage }: Props) => {
   const linkStyle = { color: '#71ABFF' };
   let pagnum = 1;
 
@@ -16,30 +20,23 @@ const Pagination = (props) => {
   return (
     <nav>
       <ul className="list-inline pull-right dpPag" >
-        <li className={firstPage ? 'hidden' : 'dpHand'} style={linkStyle} onClick={() => { props.getPage(0);}} >
+        <li className={firstPage ? 'hidden' : 'dpHand'} style={linkStyle} onClick={() => { getPage(0);}} >
           <em>First</em>
         </li>
-        <li className={firstPage ? 'hidden' : 'dpHand'} onClick={() => { props.getPage(activePage - 1);}} >
+        <li className={firstPage ? 'hidden' : 'dpHand'} onClick={() => { getPage(activePage - 1);}} >
           <span className="glyphicon glyphicon-chevron-left" ></span>
         </li>
         <li>{pagDisplay}</li>
-        <li className={lastPage ? 'hidden' : 'dpHand'} onClick={()=>{props.getPage(activePage + 1);}} >
+        <li className={lastPage ? 'hidden' : 'dpHand'} onClick={()=>{getPage(activePage + 1);}} >
           <span className="glyphicon glyphicon-chevron-right" ></span>
         </li>
-        <li className={lastPage ? 'hidden' : 'dpHand'} style={linkStyle} onClick={() => {props.getPage(pagnum - 1);}} >
+        <li className={lastPage ? 'hidden' : 'dpHand'} style={linkStyle} onClick={() => {getPage(pagnum - 1);}} >
           <em>Last</em>
         </li>
         <li>Records {count}</li>
       </ul>
     </nav>
   );
-};
-
-Pagination.propTypes = {
-  activePage: PropTypes.number,
-  count: PropTypes.number,
-  numPage: PropTypes.number,
-  getPage: PropTypes.func
 };
 
 export default Pagination;

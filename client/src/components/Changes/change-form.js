@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import FormInput from '../../components/Common/form-text-input';
 import TextArea from '../../components/Common/text-area';
 import DateTimePicker from '../../components/Common/date-picker';
@@ -7,8 +7,17 @@ import Moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 momentLocalizer(Moment);
 
+type Props = {
+    change: any,
+    onChange: any,
+    onDateChange: any,
+    users: any,
+    status: any,
+    errors: any
+}
+
 const ChangeForm = ({
-  errors, change, status, users, onDateChange, onChange }) => {
+  errors, change, status, users, onDateChange, onChange }: Props) => {
 
   return(
     <form className="form form-horizontal" >
@@ -142,15 +151,6 @@ const ChangeForm = ({
         inputdiv="col-sm-10" />
     </form>
   );
-};
-
-ChangeForm.propTypes = {
-    change: React.PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
-    onDateChange: PropTypes.func.isRequired,
-    users: PropTypes.array.isRequired,
-    status: PropTypes.array.isRequired,
-    errors: PropTypes.object.isRequired
 };
 
 export default ChangeForm;

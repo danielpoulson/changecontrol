@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-/* global styles for app */
 
 import { getAllTasks } from '../../actions/actions_tasks';
 import { setUser } from '../../actions/actions_main';
@@ -11,9 +10,14 @@ import './styles/app.css';
 
 /* application components */
 import Header from '../../layouts/Header';
-import { Footer } from '../../layouts/Footer';
 
 export class App extends Component {
+  props: {
+    children: any,
+    getAllTasks: any,
+    getUsers: any,
+    setUser: any
+  }
 
   componentWillMount() {
     const authorised:any = sessionStorage.getItem('authorised');    
@@ -34,19 +38,9 @@ export class App extends Component {
         <div className="">
             {this.props.children}
         </div>
-        <div className="">
-          <Footer />
-        </div>
       </div>
     );
   }
 }
-
-App.propTypes = {
-  children: React.PropTypes.any,
-  getAllTasks: React.PropTypes.func,
-  getUsers: React.PropTypes.func,
-  setUser: React.PropTypes.func
-};
 
 export default connect(null, { getAllTasks, setUser, getUsers })(App);

@@ -1,7 +1,11 @@
 import React from 'react';
 import './error-panel.css';
 
-const ErrorPanel = ({errors}) => {
+type Props = {
+  errors: any
+}
+
+const ErrorPanel = ({errors}:Props) => {
 
   const errorlist = errors.map( (e, i) => <li key={i}><span className="fa fa-exclamation-triangle"></span> - {e}</li>);
 
@@ -12,10 +16,6 @@ const ErrorPanel = ({errors}) => {
       </ul>
     </div>
   );
-};
-
-ErrorPanel.propTypes = {
-  errors: React.PropTypes.array
 };
 
 export default ErrorPanel;

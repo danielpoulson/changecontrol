@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Toastr from 'toastr';
 
@@ -12,27 +13,27 @@ import { setMain } from '../../actions/actions_main';
 import { getFiles } from '../../actions/actions_files';
 
 class Changes extends Component {
+  props: {
+    changes: any,
+    exportChanges: any,
+    getChanges: any,
+    getChange: any,
+    getFiles: any,
+    loadPage: any,
+    setMain: any,
+    setChanges: any,
+    user: any
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      activePage: 0,
-      colSelected: null,
-      paged: {},
-      count: 0,
-      numPage: 15,
-      txtSearch: '',
-      showAll: false
-    };
-    this.allChanges = this.allChanges.bind(this);
-    this.exportChange = this.exportChange.bind(this);
-    this.newChange = this.newChange.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onSearchText = this.onSearchText.bind(this);
-    this.onSortByClick = this.onSortByClick.bind(this);
-    this.onGetChange = this.onGetChange.bind(this);
-    this.linkClick = this.linkClick.bind(this);
-  }
+  state = {
+    activePage: 0,
+    colSelected: null,
+    paged: {},
+    count: 0,
+    numPage: 15,
+    txtSearch: '',
+    showAll: false
+  };
 
   componentWillMount() {
     const search = this.props.changes.searchText;
@@ -46,12 +47,12 @@ class Changes extends Component {
   // TODO: (2) MED Show all button reverts to "Show all"
   // The button should be "Show Current" but reverts back when returning from the details page.
 
-  onSearchText(event) {
+  onSearchText = (event) => {
     const value = event.target.value;
     this.setState({ activePage: 0 });
     this.setState({ txtSearch: value });
     this.onChange(0, value);
-  }
+  };
 
   onChange(page_num, searchText, column) {
     const action = {};
@@ -62,25 +63,25 @@ class Changes extends Component {
     this.props.loadPage(action);
   }
 
-  onGetChange(i) {
+  onGetChange = (i) => {
     const _id = i;
     // const _id = this.props.changelist[i].CC_No;
     this.props.setMain({ MainId: _id, CurrentMode: 'change', loading: true });
     this.props.getChange(_id);
-    this.context.router.push(`/change/${_id}`);
-  }
+    // this.context.router.push(`/change/${_id}`);
+  };
 
-  onSortByClick(column) {
+  onSortByClick = (column) => {
     this.setState({ activePage: 0 });
     this.onChange(0, this.state.txtSearch, column);
   }
 
-  linkClick(i) {
+  linkClick = (i) => {
     this.onChange(i + 1, this.state.txtSearch);
     this.setState({ activePage: i });
-  }
+  };
 
-  allChanges() {
+  allChanges = () => {
     let _showAll = this.state.showAll;
     _showAll = !_showAll;
     this.setState({ showAll: _showAll });
@@ -93,9 +94,9 @@ class Changes extends Component {
     this.setState({ txtSearch: null });
     this.setState({ activePage: 0 });
     Toastr.success(`Only showing active changes - ${this.state.showAll}`, 'Change Detail', { timeOut: 1000 });
-  }
+  };
 
-  exportChange() {
+  exportChange = () => {
     const info = {
       fsSource: 'exp',
       fsAddedBy: this.props.user.username,
@@ -105,15 +106,13 @@ class Changes extends Component {
     };
 
     this.props.exportChanges(info);
-    this.context.router.push('/export');
-  }
+  };
 
-  newChange() {
+  newChange = () => {
     this.props.getChange('new');
     this.props.setMain({ MainId: 'new', CurrentMode: 'change', loading: false });
     this.props.setChanges();
-    this.context.router.push('/change/new');
-  }
+  };
 
   render() {
     let _changeTitle = 'Register';
@@ -142,16 +141,16 @@ class Changes extends Component {
         </div>
         <div className="row">
           <div className="col-sm-6">
-            <button
-              className="btn btn-success pull-left"
-              onClick={this.newChange} >
-              New Change
-            </button>
-            <button
-              className="btn btn-info dp-margin-10-LR"
-              onClick={this.exportChange} >
-              Export List
-            </button>
+            <Link to="/change/new" onClick={this.newChange}>
+              <button className="btn btn-success pull-left">New Change</button>
+            </Link>
+            <Link to="/export">
+              <button
+                className="btn btn-info dp-margin-10-LR"
+                onClick={this.exportChange} >
+                Export List
+              </button>
+            </Link>
             <button
               className="btn btn-warning"
               onClick={this.allChanges} >
@@ -180,25 +179,6 @@ class Changes extends Component {
     );
   }
 }
-
-Changes.propTypes = {
-  changes: PropTypes.object,
-  exportChanges: PropTypes.func,
-  getChanges: PropTypes.func,
-  getChange: PropTypes.func,
-  getFiles: PropTypes.func,
-  loadPage: PropTypes.func,
-  setMain: PropTypes.func,
-  user: PropTypes.object
-};
-
-Changes.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
-
-Changes.childContextTypes = {
-  location: React.PropTypes.object
-};
 
 export default connect(state => ({ changes: state.changes, user: state.main.user }),
   { getChange, getChanges, addChange, loadPage, exportChanges, setChanges, setMain, getFiles })(Changes);

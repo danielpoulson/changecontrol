@@ -1,6 +1,19 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 class TextInput extends React.Component {
+  props: {
+    name: string,
+    label: string,
+    onChange: any,
+    placeholder: string,
+    value: string,
+    error: boolean,
+    inputdiv: string,
+    inputstyle: string,
+    labelstyle: string,
+    touched: boolean,
+    type: string
+  }
   render() {
 
     let wrapperClass = 'form-group';
@@ -9,7 +22,7 @@ class TextInput extends React.Component {
     const _labelstyle = this.props.labelstyle;
 
     if (this.props.error) {
-      wrapperClass += " has-error";
+      wrapperClass += ' has-error';
     }
 
     return (
@@ -31,17 +44,3 @@ class TextInput extends React.Component {
 }
 
 export default TextInput;
-
-TextInput.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func,
-  placeholder: PropTypes.string,
-  value: PropTypes.string,
-  error: PropTypes.bool,
-  inputdiv: PropTypes.string,
-  inputstyle: PropTypes.string,
-  labelstyle: PropTypes.string,
-  touched: PropTypes.bool,
-  type: PropTypes.string
-};

@@ -1,22 +1,32 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import {getStatCC} from '../../utils/status';
+import './change-list.css';
 
-const ChangeRow = (props) => {
-  const _change = props.change;
+type Props = {
+  change: any,
+  getChange: any
+}
+
+const ChangeRow = ({change, getChange} : Props) => {
+
   return (
-		<tr onClick={props.getChange.bind(null, props.change.CC_No)} >
-			<td> {_change.CC_No} - {_change.CC_Descpt} </td>
-			<td> {_change.CC_Champ} </td>
-			<td> {moment(_change.CC_TDate).format('DD/MM/YYYY')} </td>
-			<td className="colaligncenter" ><i className={getStatCC(_change.CC_Stat)} ></i></td>
-    </tr>
+    
+      <tr>        
+          <td>
+            <Link 
+              to={`/change/${change.CC_No}`}
+              className="link-unstyled"
+              onClick={getChange.bind(null, change.CC_No)} >
+              {change.CC_No} - {change.CC_Descpt} 
+            </Link> 
+          </td>
+          <td> {change.CC_Champ} </td>
+          <td> {moment(change.CC_TDate).format('DD/MM/YYYY')} </td>
+          <td className="colaligncenter" ><i className={getStatCC(change.CC_Stat)} ></i></td>
+      </tr>
   );
-};
-
-ChangeRow.propTypes = {
-  getChange: PropTypes.func,
-  change: PropTypes.object
 };
 
 export default ChangeRow;

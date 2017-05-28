@@ -1,4 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getUserDashboard } from '../../actions/actions_main';
 import { loadPage } from '../../actions/actions_changes';
@@ -9,48 +11,46 @@ import RechartLineChart from '../../components/graphs/rechart-line-chart';
 import './styles.css';
 
 class Home extends Component {
-  constructor(props){
-    super(props);
+  props: {
+    allOpenChanges: number,
+    allOpenTasks: number,
+    countChangesUser: number,
+    countTasksUser: number,
+    fullname: string,
+    getUserDashboard: any,
+    loadPage: any,
+    loadPageTask: any
+  };
 
-    this.getAllChanges = this.getAllChanges.bind(this);
-    this.getAllTasks = this.getAllTasks.bind(this);
-    this.getChanges = this.getChanges.bind(this);
-    this.getTasks = this.getTasks.bind(this);
-  }
-
-  componentWillMount(){
+  componentWillMount() {
     const username = sessionStorage.getItem('username');
     if (username) {
       this.props.getUserDashboard(username);
     }
   }
 
-  getTasks() {
+  getTasks = () => {
     const action = {};
     action.search = this.props.fullname || null;
     this.props.loadPageTask(action);
-    this.context.router.push('/tasks');
-  }
+  };
 
-  getChanges() {
+  getChanges = () => {
     const action = {};
     action.search = this.props.fullname || null;
     this.props.loadPage(action);
-    this.context.router.push('/changes');
-  }
+  };
 
-  getAllTasks() {
+  getAllTasks = () => {
     const action = {};
     action.search = null;
     this.props.loadPageTask(action);
-    this.context.router.push('/tasks');
   }
 
-  getAllChanges() {
+  getAllChanges = () => {
     const action = {};
     action.search = null;
     this.props.loadPage(action);
-    this.context.router.push('/changes');
   }
 
   render(){
@@ -58,30 +58,38 @@ class Home extends Component {
       <div>
         <div className="dashboard"><h1>Dashboard</h1></div>
         <div className="row">
-          <div className="col-sm-3">
-            <div className="tile green grow" onClick={this.getChanges}>
-              <h2>My Changes</h2>
-              <i className="fa fa-list-alt"></i>&nbsp; {this.props.countChangesUser}
+          <Link to="/changes">
+            <div className="col-sm-3">
+              <div className="tile green grow" onClick={this.getChanges}>
+                <h2>My Changes</h2>
+                <i className="fa fa-list-alt"></i>&nbsp; {this.props.countChangesUser}
+              </div>
             </div>
-          </div>
-          <div className="col-sm-3">
-            <div className="tile blue grow" onClick={this.getTasks}>
-              <h2>My Tasks</h2>
-              <i className="fa fa-tasks">&nbsp; </i>{this.props.countTasksUser}
+          </Link>
+          <Link to="/tasks">
+            <div className="col-sm-3">
+              <div className="tile blue grow" onClick={this.getTasks}>
+                <h2>My Tasks</h2>
+                <i className="fa fa-tasks">&nbsp; </i>{this.props.countTasksUser}
+              </div>
             </div>
-          </div>
-          <div className="col-sm-3">
-            <div className="tile orange grow" onClick={this.getAllChanges}>
-              <h2>Open Changes</h2>
-              <i className="fa fa-list-alt"></i>&nbsp; {this.props.allOpenChanges}
+          </Link>
+          <Link to="/changes">
+            <div className="col-sm-3">
+              <div className="tile orange grow" onClick={this.getAllChanges}>
+                <h2>Open Changes</h2>
+                <i className="fa fa-list-alt"></i>&nbsp; {this.props.allOpenChanges}
+              </div>
             </div>
-          </div>
-          <div className="col-sm-3">
-            <div className="tile purple grow" onClick={this.getAllTasks}>
-              <h2>Open Tasks</h2>
-              <i className="fa fa-tasks"></i>&nbsp; {this.props.allOpenTasks}
+          </Link>
+          <Link to="/tasks">
+            <div className="col-sm-3">
+              <div className="tile purple grow" onClick={this.getAllTasks}>
+                <h2>Open Tasks</h2>
+                <i className="fa fa-tasks"></i>&nbsp; {this.props.allOpenTasks}
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
         <div className="row cc-graph">
           <div className="col-sm-6">
@@ -97,21 +105,6 @@ class Home extends Component {
     );
   }
 }
-
-Home.propTypes = {
-  allOpenChanges: PropTypes.number,
-  allOpenTasks: PropTypes.number,
-  countChangesUser: PropTypes.number,
-  countTasksUser: PropTypes.number,
-  getUserDashboard: PropTypes.func.isRequired,
-  fullname: PropTypes.string,
-  loadPage: PropTypes.func.isRequired,
-  loadPageTask: PropTypes.func.isRequired
-};
-
-Home.contextTypes = {
-  router: PropTypes.object.isRequired
-};
 
 export default connect(
   state => ({ fullname: state.main.user.fullname,

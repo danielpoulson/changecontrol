@@ -1,5 +1,6 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import TaskTable from './task-table';
@@ -8,6 +9,14 @@ import { getChange } from '../../actions/actions_changes';
 import { setMain } from '../../actions/actions_main';
 
 class TaskList extends Component {
+  props: {
+    type: string,
+    tasksTab: string,
+    tasklist: any,
+    setMain: any,
+    getChange: any,
+    getTask: any
+  }
 
   state = {};
 
@@ -16,17 +25,14 @@ class TaskList extends Component {
       const ccNo:string = this.props.tasklist[i].SourceId;
       this.props.setMain({ MainId: ccNo, CurrentMode: 'change', loading: true });
       this.props.getChange(ccNo);
-      this.context.router.push(`/change/${ccNo}`);
     } else {
       const _id = this.props.tasklist[i]._id;
       this.props.getTask(_id);
-      this.context.router.push(`/task/${_id}`);
     }
   };
 
   newTask = () => {
     this.props.getTask('new');
-    this.context.router.push('/task/new');
   };
 
   render() {
@@ -41,29 +47,19 @@ class TaskList extends Component {
       <div className={this.props.tasksTab}>
         <div>
           <TaskTable
+            listType= {this.props.type}
             tasklist={this.props.tasklist}
             handleClick={this.handleClick} />
         </div>
         <div className={hideButton}>
+          <Link to="/task/new">
             <input type="submit" value="New Task" className="btn btn-success pull-left" onClick={this.newTask} />
+          </Link>
         </div>
       </div>
     );
   }
 }
-
-TaskList.propTypes = {
-  type: PropTypes.string,
-  tasksTab: PropTypes.string,
-  tasklist: PropTypes.array,
-  setMain: PropTypes.func,
-  getChange: PropTypes.func,
-  getTask: PropTypes.func
-};
-
-TaskList.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
 
 export default connect(null,
   { getTask, getChange, setMain })(TaskList);

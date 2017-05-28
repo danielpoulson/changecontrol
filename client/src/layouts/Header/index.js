@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Login from '../../components/Login/login';
 import NavBar from '../../layouts/Navigation/nav-bar';
@@ -7,14 +8,18 @@ import { getUserDashboard, login } from '../../actions/actions_main';
 import './styles.css';
 
 class Header extends Component {
+  props: {
+    getUserDashboard: any,
+    login: any,
+    fullname: string
+  }
   constructor(props){
     super(props);
     this.state = {
-       login: {}
+      login: {}
     };
     this.onLogin = this.onLogin.bind(this);
     this.setStateLogin = this.setStateLogin.bind(this);
-    this.changePassword = this.changePassword.bind(this);
   }
 
   onLogin(e) {
@@ -29,10 +34,6 @@ class Header extends Component {
     const value = evt.target.value;
     _login[name] = value;
     return this.setState({ login: _login });
-  }
-
-  changePassword() {
-    this.context.router.push('/user_pass');
   }
 
   render() {
@@ -67,27 +68,17 @@ class Header extends Component {
                             <p style={textStyle} className="pull-right">Welcome: {this.props.fullname}</p>
                         }
                     </div>
-                    <div className="pull-right" style={changePassword} onClick={this.changePassword}>
-                      {this.props.fullname ? "Change Password?" : "" }
-                    </div>
+                    <Link to="/user_pass" className="pull-right" style={changePassword} >
+                      {this.props.fullname ? 'Change Password?' : '' }
+                    </Link>
                 </section>
 
             </div>
             <NavBar />
         </div>
-      );
+    );
   }
 }
-
-Header.propTypes = {
-  getUserDashboard: React.PropTypes.func.isRequired,
-  login: React.PropTypes.func,
-  fullname: React.PropTypes.string
-};
-
-Header.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
 
 export default connect(
   state => ({ fullname: state.main.user.fullname }), { getUserDashboard, login }

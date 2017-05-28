@@ -1,18 +1,23 @@
 import React from 'react';
 
-
 export default class DownloadButton extends React.Component {
+  props: {
+  fileLoad: any,
+  export: string,
+  removeFile: any,
+  fileId: string
+}
   constructor(props) {
     super(props);
     this.onDownload = this.onDownload.bind(this);
   }
-  onDownload(e) {
+  onDownload() {
 
-      window.location.href = `/api/files/upload/${this.props.fileLoad}`;
+    window.location.href = `/api/files/upload/${this.props.fileLoad}`;
 
-      if (this.props.export === 'hidden') {
-        this.props.removeFile(this.props.fileId);
-      }
+    if (this.props.export === 'hidden') {
+      this.props.removeFile(this.props.fileId);
+    }
 
   }
 
@@ -25,10 +30,3 @@ export default class DownloadButton extends React.Component {
     );
   }
 }
-
-DownloadButton.propTypes = {
-  fileLoad: React.PropTypes.any,
-  export: React.PropTypes.string,
-  removeFile: React.PropTypes.func,
-  fileId: React.PropTypes.string
-};

@@ -1,7 +1,14 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import SelectInput from '../../components/Common/select-input';
 
-const UserSelect = (props) => {
+type Props = {
+  user: string,
+  users: mixed[],
+  onChange: any,
+  newUser: any
+}
+
+const UserSelect = ({user, users, onChange, newUser}: Props) => {
 
   return (
     <div className="cc-user-select-fnStyle">
@@ -10,23 +17,17 @@ const UserSelect = (props) => {
         label="Fullname"
         labelstyle="col-sm-2 control-label cc-user-select-labStyle"
         inputdiv="col-sm-4"
-        value={props.user}
+        value={user}
         defaultOption="Select User"
-        options={props.users}
-        onChange={props.onChange}/>
+        options={users}
+        onChange={onChange}/>
 
-      <button className="btn btn-info dp-margin-10-LR" onClick={props.newUser}>
+      <button className="btn btn-info dp-margin-10-LR" onClick={newUser}>
         New User
       </button>
 
     </div>
   );
-};
-
-UserSelect.propTypes = {
-  users: PropTypes.array,
-  onChange: PropTypes.func,
-  newUser: PropTypes.func.isRequired
 };
 
 export default UserSelect;

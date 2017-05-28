@@ -1,20 +1,28 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import FileRow from './file-row';
 
-const FileTable = (props) => {
+type Props = {
+  user: {},
+  exportFiles: string,
+  files: mixed[],
+  createLog: any,
+  deleteFile: any,
+  removeFile: any,
+  bookoutFile: any
+}
 
-  const _files = props.files;
-  const hidden = props.export;
-  let files = [];
+const FileTable = ({ user, exportFiles, files, createLog, deleteFile, removeFile, bookoutFile }: Props) => {
+
+  const _files = files;
 
   if (Object.keys(_files).length > 0) {
     files = _files.map((file) => <FileRow key={file._id} file={file}
-      user={props.user}
-      export={hidden}
-      createLog={props.createLog}
-      deleteFile={props.deleteFile}
-      removeFile={props.removeFile}
-      bookoutFile={props.bookoutFile} />);
+      user={user}
+      exportFiles={exportFiles}
+      createLog={createLog}
+      deleteFile={deleteFile}
+      removeFile={removeFile}
+      bookoutFile={bookoutFile} />);
   }
 
   return (
@@ -33,17 +41,7 @@ const FileTable = (props) => {
 			</table>
 		</div>
 
-	);
-};
-
-FileTable.propTypes = {
-  user: PropTypes.object,
-  export: PropTypes.string,
-  files: PropTypes.array.isRequired,
-  createLog: PropTypes.func.isRequired,
-  deleteFile: PropTypes.func.isRequired,
-  removeFile: PropTypes.func.isRequired,
-  bookoutFile: PropTypes.func.isRequired
+  );
 };
 
 export default FileTable;

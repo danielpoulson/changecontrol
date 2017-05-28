@@ -1,6 +1,20 @@
 import React from 'react';
 
 export default class BookoutButton extends React.Component {
+  props : {
+    fsBooked: number,
+    user: {
+      fullname: string,
+      dept: string,
+      role: string
+    },
+    source: string,
+    fileId: string,
+    bookoutFile: any,
+    fileLoad: string,
+    createLog: any,
+    deleteFile: any
+  }
   constructor(props) {
     super(props);
 
@@ -22,7 +36,7 @@ export default class BookoutButton extends React.Component {
 
   deleteFile() {
     const _log = { CC_No: this.props.source, CC_Id: 4, CC_Action: `**** File Deleted **** - ${this.props.fileLoad}`,
-            CC_ActDept: this.props.user.dept, CC_ActBy: this.props.user.fullname, CC_ActDate: new Date() };
+      CC_ActDept: this.props.user.dept, CC_ActBy: this.props.user.fullname, CC_ActDate: new Date() };
     this.props.createLog(_log);
     this.props.deleteFile(this.props.fileId);
   }
@@ -60,14 +74,3 @@ export default class BookoutButton extends React.Component {
   }
 
 }
-
-BookoutButton.propTypes = {
-  fsBooked: React.PropTypes.number,
-  user: React.PropTypes.object,
-  source: React.PropTypes.string,
-  fileId: React.PropTypes.string,
-  bookoutFile: React.PropTypes.func,
-  fileLoad: React.PropTypes.string,
-  createLog: React.PropTypes.func,
-  deleteFile: React.PropTypes.func
-};
