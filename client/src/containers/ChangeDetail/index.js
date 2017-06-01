@@ -27,6 +27,7 @@ class ChangeDetail extends Component {
     editChange: any,
     getChange: any,
     getProjectTasks: any,
+    history: any,
     main: any,
     setMain: any,
     tasklist: any,
@@ -121,7 +122,7 @@ class ChangeDetail extends Component {
 
   cancelChange(e) {
     e.preventDefault();
-    this.context.router.push('/changes');
+    this.props.history.push('/changes');
   }
 
   updateChangeState(event) {

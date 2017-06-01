@@ -19,10 +19,12 @@ class Home extends Component {
     fullname: string,
     getUserDashboard: any,
     loadPage: any,
-    loadPageTask: any
+    loadPageTask: any,
+    history: any
   };
 
   componentWillMount() {
+    
     const username = sessionStorage.getItem('username');
     if (username) {
       this.props.getUserDashboard(username);
@@ -39,6 +41,7 @@ class Home extends Component {
     const action = {};
     action.search = this.props.fullname || null;
     this.props.loadPage(action);
+    this.props.history.push('/changes');
   };
 
   getAllTasks = () => {
@@ -58,14 +61,12 @@ class Home extends Component {
       <div>
         <div className="dashboard"><h1>Dashboard</h1></div>
         <div className="row">
-          <Link to="/changes">
-            <div className="col-sm-3">
-              <div className="tile green grow" onClick={this.getChanges}>
-                <h2>My Changes</h2>
-                <i className="fa fa-list-alt"></i>&nbsp; {this.props.countChangesUser}
-              </div>
+          <div className="col-sm-3">
+            <div className="tile green grow" onClick={this.getChanges}>
+              <h2>My Changes</h2>
+              <i className="fa fa-list-alt"></i>&nbsp; {this.props.countChangesUser}
             </div>
-          </Link>
+          </div>
           <Link to="/tasks">
             <div className="col-sm-3">
               <div className="tile blue grow" onClick={this.getTasks}>
