@@ -3,6 +3,7 @@ import toastr from 'toastr';
 
 const initialState = {
   MainId: '',
+  ChangeTitle: '',
   CurrentMode: 'change',
   user: {
     username: '',
@@ -53,31 +54,37 @@ export default function (state = initialState, action) {
       };
 
     case SET_LOADING:
+        return {
+          ...state,
+          loading: action.data.loading
+        };
+
+    case 'SET_TITLE':
       return {
         ...state,
-        loading: action.data.loading
+        ChangeTitle: action.data
       };
 
-  case SET_USER_DASHBOARD: {
-    const countChangesUser = action.payload.data ? action.payload.data.changeCount : 0;
-    const countTasksUser = action.payload.data ? action.payload.data.taskCount : 0;
-    const allOpenTasks = action.payload.data ? action.payload.data.allTaskCount : 0;
-    const allOpenChanges = action.payload.data ? action.payload.data.allChangeCount : 0;
-    const barData = action.payload.data ? action.payload.data.barData : {};
-    const lineData = action.payload.data ? action.payload.data.lineData : {};
-    return {
-      ...state,
-      barData,
-      lineData,
-      countChangesUser,
-      countTasksUser,
-      allOpenTasks,
-      allOpenChanges
-    };
-  }
+    case SET_USER_DASHBOARD: {
+      const countChangesUser = action.payload.data ? action.payload.data.changeCount : 0;
+      const countTasksUser = action.payload.data ? action.payload.data.taskCount : 0;
+      const allOpenTasks = action.payload.data ? action.payload.data.allTaskCount : 0;
+      const allOpenChanges = action.payload.data ? action.payload.data.allChangeCount : 0;
+      const barData = action.payload.data ? action.payload.data.barData : {};
+      const lineData = action.payload.data ? action.payload.data.lineData : {};
+      return {
+        ...state,
+        barData,
+        lineData,
+        countChangesUser,
+        countTasksUser,
+        allOpenTasks,
+        allOpenChanges
+      };
+    }
 
 
-    default:
-      return state;
+  default:
+    return state;
   }
 }

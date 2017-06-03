@@ -1,3 +1,4 @@
+// @flow
 import axios from 'axios';
 
 export const GET_CHANGES = 'GET_CHANGES';
@@ -100,7 +101,7 @@ export function bookoutFile(data) {
 
 }
 
-export function exportChanges(search) {
+export function exportChanges(search: string) {
   const url = '/api/changes/export';
   const request = axios.post(url, search);
 
@@ -113,5 +114,12 @@ export function exportChanges(search) {
 export function setChanges() {
   return {
     type: 'SET_CHANGES'
-  }
+  };
+}
+
+export function setSearch(search: string) {
+  return {
+    type: 'SET_SEARCH',
+    search
+  };
 }

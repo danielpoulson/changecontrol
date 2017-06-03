@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getUserDashboard } from '../../actions/actions_main';
-import { loadPage } from '../../actions/actions_changes';
+import { loadPage, setSearch } from '../../actions/actions_changes';
 import { loadPageTask } from '../../actions/actions_tasks';
 import RechartBarChart from '../../components/graphs/rechart-bar-chart';
 import RechartLineChart from '../../components/graphs/rechart-line-chart';
@@ -20,7 +20,8 @@ class Home extends Component {
     getUserDashboard: any,
     loadPage: any,
     loadPageTask: any,
-    history: any
+    history: any, 
+    setSearch: any
   };
 
   componentWillMount() {
@@ -38,9 +39,7 @@ class Home extends Component {
   };
 
   getChanges = () => {
-    const action = {};
-    action.search = this.props.fullname || null;
-    this.props.loadPage(action);
+    this.props.setSearch(this.props.fullname);
     this.props.history.push('/changes');
   };
 
@@ -112,5 +111,5 @@ export default connect(
     countChangesUser: state.main.countChangesUser,
     allOpenChanges: state.main.allOpenChanges,
     allOpenTasks: state.main.allOpenTasks,
-    countTasksUser: state.main.countTasksUser }), { getUserDashboard, loadPage, loadPageTask}
+    countTasksUser: state.main.countTasksUser }), { getUserDashboard, loadPage, loadPageTask, setSearch }
 )(Home);

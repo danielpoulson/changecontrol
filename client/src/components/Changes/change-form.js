@@ -3,9 +3,9 @@ import FormInput from '../../components/Common/form-text-input';
 import TextArea from '../../components/Common/text-area';
 import DateTimePicker from '../../components/Common/date-picker';
 import SelectInput from '../../components/Common/select-input';
-import Moment from 'moment';
-import momentLocalizer from 'react-widgets/lib/localizers/moment';
-momentLocalizer(Moment);
+
+// import momentLocalizer from 'react-widgets/lib/localizers/moment';
+// momentLocalizer(Moment);
 
 type Props = {
     change: any,

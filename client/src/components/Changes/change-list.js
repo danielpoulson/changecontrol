@@ -42,7 +42,7 @@ const ChangeList = ({ colSelected, changelist, getChange, sortByClick }: Props) 
   return (
       <div>
           <div className="panel panel-success">
-              <table className="table table-hover phange-table dp_point">
+              <table className="table table-hover phange-table dp_point dpHand">
                   <thead className="print-table-head">
                       <tr className="dpHand">
                           <th className="col-sm-8" onClick={sortByClick.bind(null, 'CC_No')}>

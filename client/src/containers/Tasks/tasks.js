@@ -8,6 +8,8 @@ import SearchBox from '../../components/Common/search-box';
 /* actions */
 import { getAllTasks, loadPageTask, exportTasks } from '../../actions/actions_tasks';
 import { getFiles } from '../../actions/actions_files';
+import { getChange } from '../../actions/actions_changes';
+import { setMain } from '../../actions/actions_main';
 
 class Tasks extends Component {
   props: {
@@ -15,8 +17,11 @@ class Tasks extends Component {
     tasks: any,
     exportTasks: any,
     getAllTasks: any,
+    getChange: any,
     getFiles: any,
-    loadPageTask: any
+    history: any,
+    loadPageTask: any,
+    setMain: any
   }
   constructor(props) {
     super(props);
@@ -28,6 +33,7 @@ class Tasks extends Component {
     };
 
     this.onSearchText = this.onSearchText.bind(this);
+    this.onSelectTask = this.onSelectTask.bind(this);
     this.onSortByClick = this.onSortByClick.bind(this);
     this.linkClick = this.linkClick.bind(this);
     this.exportTask = this.exportTask.bind(this);
@@ -51,7 +57,7 @@ class Tasks extends Component {
   onChange(page_num, searchText, column) {
     const action = {};
     action.page_num = page_num || 1;
-    action.search = searchText || this.state.txtSearch;
+    action.search = searchText || null;
     action.numPage = this.state.numPage;
     action.column = column;
     this.props.loadPageTask(action);
@@ -62,6 +68,13 @@ class Tasks extends Component {
     this.setState({ activePage: 0 });
     this.setState({ txtSearch: value });
     this.onChange(0, value);
+  }
+
+  onSelectTask(i) {
+    const ccNo:string = i.SourceId;
+    this.props.setMain({ MainId: ccNo, CurrentMode: 'change', loading: true });
+    this.props.getChange(ccNo);
+    this.props.history.push(`/change/${ccNo}`);
   }
 
   onSortByClick(column) {
@@ -127,6 +140,7 @@ class Tasks extends Component {
 
         <TaskList
           tasklist={this.props.tasks.paged}
+          onSelectTask={this.onSelectTask}
           type="All" />
 
         </div>
@@ -135,4 +149,4 @@ class Tasks extends Component {
 }
 
 export default connect(state => ({ tasks: state.tasks, user: state.main.user }),
-  { getAllTasks, loadPageTask, exportTasks, getFiles })(Tasks);
+  { getAllTasks, loadPageTask, exportTasks, getFiles, getChange, setMain })(Tasks);

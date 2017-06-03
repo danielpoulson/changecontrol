@@ -19,6 +19,7 @@ class TaskDetail extends React.Component {
     setLoading: any,
     editTask: any,
     addTask: any,
+    history: any,
     task: any,
     taskActions: any,
     users: any,
@@ -67,6 +68,7 @@ class TaskDetail extends React.Component {
   cancelTask(event) {
     event.preventDefault();
     this.props.mainActions.setLoading({ loading: false });
+    this.props.history.push(`/change/${this.props.main.MainId}`);
   }
 
   deleteTask(event) {
@@ -102,6 +104,7 @@ class TaskDetail extends React.Component {
 
     toastr.success('Task has been saved', 'Task Detail', { timeOut: 1000 });
     this.props.mainActions.setLoading({ loading: false });
+    this.props.history.push(`/change/${this.props.main.MainId}`);
   }
 
   updateTaskState(event) {
@@ -128,7 +131,7 @@ class TaskDetail extends React.Component {
       paddingBottom: 50
     };
 
-    const taskTitle = this.state.taskTitle ? this.state.taskTitle : 'New Task';
+    const taskTitle = this.props.main.ChangeTitle? this.props.main.ChangeTitle : 'New Task';
 
     return (
         <div>

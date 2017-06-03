@@ -14,8 +14,8 @@ import './changeDetail-style.css';
 
 /* actions */
 import { addChange, createLog, closeChange, editChange, getChange } from '../../actions/actions_changes';
-import { getProjectTasks } from '../../actions/actions_tasks';
-import { setMain } from '../../actions/actions_main';
+import { getTask, getProjectTasks } from '../../actions/actions_tasks';
+import { setMain, setTitle } from '../../actions/actions_main';
 
 class ChangeDetail extends Component {
   props: {
@@ -27,9 +27,11 @@ class ChangeDetail extends Component {
     editChange: any,
     getChange: any,
     getProjectTasks: any,
+    getTask: any,
     history: any,
     main: any,
     setMain: any,
+    setTitle: any,
     tasklist: any,
     users: any,
     match: {
@@ -83,6 +85,10 @@ class ChangeDetail extends Component {
     this.setState({ ccNo: CC_No });
   }
 
+  componentWillUnmount() {
+    this.props.setTitle(`${this.props.change.CC_No} - ${this.props.change.CC_Descpt}`);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.change._id !== nextProps.change._id) {
       // Necessary to populate form when existing course is loaded directly.
@@ -106,6 +112,11 @@ class ChangeDetail extends Component {
     this.logMessage('Change Closed');
   }
 
+  onSelectTask = (i) => {
+    this.props.getTask(i.id);
+    this.props.history.push(`/task/${i.id}`);
+  }
+
   logMessage(message) {
     const _log = {
       CC_No: this.props.change.CC_No,
@@ -122,7 +133,7 @@ class ChangeDetail extends Component {
 
   cancelChange(e) {
     e.preventDefault();
-    this.props.history.push('/changes');
+    this.props.history.push(`/change/${this.state.change.CC_No}`);
   }
 
   updateChangeState(event) {
@@ -254,6 +265,7 @@ class ChangeDetail extends Component {
         </div>
 
         <TaskList
+          onSelectTask={this.onSelectTask}
           tasklist={this.props.tasklist}
           tasksTab={this.state.TasksTab}
           title={this.state.changeTitle} />
@@ -286,5 +298,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  {addChange, createLog, closeChange, editChange, getChange, getProjectTasks, setMain}
+  {addChange, createLog, closeChange, editChange, getChange, getTask, getProjectTasks, setMain, setTitle}
   )(ChangeDetail);

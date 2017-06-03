@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getAllTasks } from '../../actions/actions_tasks';
 import { setUser } from '../../actions/actions_main';
 import { getUsers } from '../../actions/actions_users';
+import { getChanges } from '../../actions/actions_changes';
 
 import '../../styles/font-awesome/css/font-awesome.min.css';
 import './styles/app.css';
@@ -15,6 +16,7 @@ export class App extends Component {
   props: {
     children: any,
     getAllTasks: any,
+    getChanges: any,
     getUsers: any,
     setUser: any
   }
@@ -22,6 +24,7 @@ export class App extends Component {
   componentWillMount() {
     const authorised:any = sessionStorage.getItem('authorised');    
     this.props.getAllTasks();
+    this.props.getChanges(4);
     this.props.getUsers();
     if (authorised === 'true') {
       this.props.setUser();
@@ -30,17 +33,8 @@ export class App extends Component {
   }
 
   render() {
-    return (
-      <div className="container">
-        <div className="">
-          <Header />
-        </div>
-        <div className="">
-            {this.props.children}
-        </div>
-      </div>
-    );
+    return <Header />;
   }
 }
 
-export default connect(null, { getAllTasks, setUser, getUsers })(App);
+export default connect(null, { getAllTasks, setUser, getUsers, getChanges })(App);

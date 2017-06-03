@@ -1,35 +1,20 @@
 // @flow
+//TODO: Convert into a functional component
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import TaskTable from './task-table';
-import { getTask } from '../../actions/actions_tasks';
-import { getChange } from '../../actions/actions_changes';
-import { setMain } from '../../actions/actions_main';
 
 class TaskList extends Component {
   props: {
+    onSelectTask: any,
     type: string,
     tasksTab: string,
     tasklist: any,
-    setMain: any,
-    getChange: any,
     getTask: any
   }
 
   state = {};
-
-  handleClick = (i) => {
-    if (this.props.type === 'All') {
-      const ccNo:string = this.props.tasklist[i].SourceId;
-      this.props.setMain({ MainId: ccNo, CurrentMode: 'change', loading: true });
-      this.props.getChange(ccNo);
-    } else {
-      const _id = this.props.tasklist[i]._id;
-      this.props.getTask(_id);
-    }
-  };
 
   newTask = () => {
     this.props.getTask('new');
@@ -47,9 +32,8 @@ class TaskList extends Component {
       <div className={this.props.tasksTab}>
         <div>
           <TaskTable
-            listType= {this.props.type}
             tasklist={this.props.tasklist}
-            handleClick={this.handleClick} />
+            onSelectTask={this.props.onSelectTask} />
         </div>
         <div className={hideButton}>
           <Link to="/task/new">
@@ -61,5 +45,4 @@ class TaskList extends Component {
   }
 }
 
-export default connect(null,
-  { getTask, getChange, setMain })(TaskList);
+export default TaskList;

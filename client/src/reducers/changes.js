@@ -24,92 +24,99 @@ export default function (state, action) {
 
   switch (action.type) {
 
-    case ADD_CHANGE:
-    
-      _data = action.payload.data;
-      alldata = [
-        ...state.alldata,
-        _data
-      ];
-      paged = pagedList(alldata);
-      return {
-        ...state,
-        alldata,
-        paged,
-        total: alldata.length
-      };
+  case ADD_CHANGE:
+  
+    _data = action.payload.data;
+    alldata = [
+      ...state.alldata,
+      _data
+    ];
+    paged = pagedList(alldata);
+    return {
+      ...state,
+      alldata,
+      paged,
+      total: alldata.length
+    };
 
-    case EDIT_CHANGE:
-      _data = action.payload;
-      currIds = state.alldata.map(c => c._id);
-      index = currIds.indexOf(_data._id);
-      alldata = [
-        ...state.alldata.slice(0, index),
-        // Copy the object before mutating
-        Object.assign({}, _data),
-        ...state.alldata.slice(index + 1)
-      ];
-      paged = pagedList(alldata);
-      return {
-        paged,
-        alldata
-      };
+  case EDIT_CHANGE:
+    _data = action.payload;
+    currIds = state.alldata.map(c => c._id);
+    index = currIds.indexOf(_data._id);
+    alldata = [
+      ...state.alldata.slice(0, index),
+      // Copy the object before mutating
+      Object.assign({}, _data),
+      ...state.alldata.slice(index + 1)
+    ];
+    paged = pagedList(alldata);
+    return {
+      paged,
+      alldata
+    };
 
-      case 'DELETE_CHANGE': {
-        const _id = action.payload;
-        alldata = removeByIndex(state.alldata, _id);
-        paged = pagedList(alldata);
+  case 'DELETE_CHANGE': {
+    const _id = action.payload;
+    alldata = removeByIndex(state.alldata, _id);
+    paged = pagedList(alldata);
 
-        return {
-          ...state,
-          alldata,
-          paged
-        };
-      }
+    return {
+      ...state,
+      alldata,
+      paged
+    };
+  }
 
-    case GET_CHANGES:
-      alldata = action.payload.data;
-      paged = pagedList(alldata);
+  case GET_CHANGES:
+    alldata = action.payload.data;
+    paged = pagedList(alldata);
 
-      return {
-        searchText: null,
-        page,
-        per_page,
-        total: alldata.length,
-        total_pages: Math.ceil(alldata.length / per_page),
-        paged,
-        alldata
-      };
+    return {
+      searchText: null,
+      page,
+      per_page,
+      total: alldata.length,
+      total_pages: Math.ceil(alldata.length / per_page),
+      paged,
+      alldata
+    };
 
-    case LOAD_PAGE_CHANGES: {
-      const column = action.data.column || state.sorted;
-      per_page = action.data.numPage || 15;
-      page = action.data.page_num || 1;
-      searchText = action.data.search;
-      const searcheddata = searchData(state.alldata, searchText, column, initialState.columns);
-      paged = pagedList(searcheddata, page);
+  case LOAD_PAGE_CHANGES: {
+    const column = action.data.column || state.sorted;
+    per_page = action.data.numPage || 15;
+    page = action.data.page_num || 1;
+    searchText = action.data.search;
+    const searcheddata = searchData(state.alldata, searchText, column, initialState.columns);
+    paged = pagedList(searcheddata, page);
 
-      return {
-        ...state,
-        sorted: column,
-        searchText,
-        page,
-        per_page,
-        total: searcheddata.length,
-        total_pages: Math.ceil(alldata.length / per_page),
-        paged
-      };
-    }
+    return {
+      ...state,
+      sorted: column,
+      searchText,
+      page,
+      per_page,
+      total: searcheddata.length,
+      total_pages: Math.ceil(alldata.length / per_page),
+      paged
+    };
+  }
 
-    case 'SET_CHANGES': {
-      return {
-        ...state,
-        page: 1,
-        searchText: ''
-      }
-    }
+  case 'SET_CHANGES': {
+    return {
+      ...state,
+      page: 1,
+      searchText: ''
+    };
+  }
 
-    default:
-      return state;
+  case 'SET_SEARCH': {
+    return {
+      ...state,
+      searchText: action.search
+    };
+  }
+
+  default:
+    return state;
   }
 }

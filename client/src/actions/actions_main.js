@@ -43,6 +43,14 @@ export function setLoading(data) {
   };
 }
 
+export function setTitle(data) {
+
+  return {
+    type: 'SET_TITLE',
+    data
+  };
+}
+
 export function setUser() {
   const url = '/api/users/logged';
   const request = axios.get(url);

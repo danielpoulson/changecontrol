@@ -85,16 +85,12 @@ const TaskForm = ({
         rows="6" />
 
       <div className="col-sm-9 col-md-offset-2">
-        <Link to={`/change/${task.SourceId}`}>
-          <button className="btn btn-success pull-left" disabled={submitting} onClick={onSaveTask}>
-            {submitting ? <i /> : <i />} Save Task
-          </button>
-        </Link>
-        <Link to={`/change/${task.SourceId}`}>
-          <button className="btn btn-info dp-margin-10-LR" disabled={submitting} onClick={onCancel}>
-          Cancel
-          </button>
-        </Link>
+        <button className="btn btn-success pull-left" disabled={submitting} onClick={onSaveTask}>
+          {submitting ? <i /> : <i />} Save Task
+        </button>
+        <button className="btn btn-info dp-margin-10-LR" disabled={submitting} onClick={onCancel}>
+        Cancel
+        </button>
         <Link to={`/change/${task.SourceId}`}>
           <button className={hideDelete} disabled={submitting} onClick={onDeleteTask}>
             Delete

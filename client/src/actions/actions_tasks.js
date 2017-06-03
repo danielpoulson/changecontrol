@@ -1,4 +1,4 @@
-//SYNC 11/03/2017 DP
+//SYNC VER.002 DP
 import axios from 'axios';
 
 export const GET_TASKS = 'GET_TASKS';

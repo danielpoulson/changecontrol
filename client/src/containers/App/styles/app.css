@@ -1,4 +1,7 @@
 
+.app--body {
+    margin-left: 15px;
+}
 /* ------------  File Icon Styles ---------*/
 .fa-file-image-o {
     color: cadetblue;

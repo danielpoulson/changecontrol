@@ -19,6 +19,7 @@ class Changes extends Component {
     getChanges: any,
     getChange: any,
     getFiles: any,
+    history: any,
     loadPage: any,
     setMain: any,
     setChanges: any,
@@ -31,17 +32,12 @@ class Changes extends Component {
     paged: {},
     count: 0,
     numPage: 15,
-    txtSearch: '',
+    txtSearch: this.props.changes.searchText,
     showAll: false
   };
 
   componentWillMount() {
-    const search = this.props.changes.searchText;
-    if (!this.props.changes.alldata.length > 0) {
-      this.props.getChanges(4);
-    }
-    this.setState({ txtSearch: search });
-    this.onChange(1, search);
+    this.onChange(1, this.state.txtSearch);
   }
 
   // TODO: (2) MED Show all button reverts to "Show all"
@@ -68,7 +64,7 @@ class Changes extends Component {
     // const _id = this.props.changelist[i].CC_No;
     this.props.setMain({ MainId: _id, CurrentMode: 'change', loading: true });
     this.props.getChange(_id);
-    // this.context.router.push(`/change/${_id}`);
+    this.props.history.push(`/change/${_id}`);
   };
 
   onSortByClick = (column) => {
