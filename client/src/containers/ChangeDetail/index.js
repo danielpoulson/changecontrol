@@ -182,7 +182,7 @@ class ChangeDetail extends Component {
 
     toastr.success('Change has been saved', 'Change Detail', { timeOut: 1000 });
     this.setState({ dirty: false });
-    this.context.router.push('/changes');
+    this.props.history.push('/changes');
   }
 
   showTab(value) {

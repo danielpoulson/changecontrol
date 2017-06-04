@@ -29,7 +29,8 @@ class Tasks extends Component {
       activePage: 0,
       count: 0,
       numPage: 15,
-      txtSearch: ''
+      txtSearch: '',
+      tasks: props.tasklist
     };
 
     this.onSearchText = this.onSearchText.bind(this);

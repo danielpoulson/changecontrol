@@ -42,3 +42,7 @@ export function searchData(data, searchText, sortColumn, columns) {
 export function removeByIndex(data, index) {
   return data.filter((item) => item._id !== index);
 }
+
+export function getBySourceId(data, id) {
+  return data.filter(item => item.SourceId === id);
+}
