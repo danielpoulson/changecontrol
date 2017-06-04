@@ -96,6 +96,10 @@ class ChangeDetail extends Component {
     }
   }
 
+  newTask = () => {
+    this.props.getTask('new');
+  };
+
   onRefresh() {
     this.props.getChange(this.state.ccNo);
   }
@@ -133,7 +137,8 @@ class ChangeDetail extends Component {
 
   cancelChange(e) {
     e.preventDefault();
-    this.props.history.push(`/change/${this.state.change.CC_No}`);
+    // this.props.history.push(`/change/${this.state.change.CC_No}`);
+    this.props.history.push('/changes');
   }
 
   updateChangeState(event) {
@@ -268,7 +273,8 @@ class ChangeDetail extends Component {
           onSelectTask={this.onSelectTask}
           tasklist={this.props.tasklist}
           tasksTab={this.state.TasksTab}
-          title={this.state.changeTitle} />
+          title={this.state.changeTitle}
+          newTask={this.newTask} />
 
         <ChangeLog
           logTab={this.state.LogTab}

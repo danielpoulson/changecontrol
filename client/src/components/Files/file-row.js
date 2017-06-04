@@ -7,6 +7,7 @@ import BookoutButton from '../../components/Common/bookout-button';
 
 type Props = {
   file: {},
+  export: any,
   removeFile: any,
   exportFiles: string,
   user: {},

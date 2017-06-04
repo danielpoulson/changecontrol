@@ -8,17 +8,11 @@ import TaskTable from './task-table';
 class TaskList extends Component {
   props: {
     onSelectTask: any,
+    newTask: any,
     type: string,
     tasksTab: string,
-    tasklist: any,
-    getTask: any
+    tasklist: any
   }
-
-  state = {};
-
-  newTask = () => {
-    this.props.getTask('new');
-  };
 
   render() {
 
@@ -37,7 +31,7 @@ class TaskList extends Component {
         </div>
         <div className={hideButton}>
           <Link to="/task/new">
-            <input type="submit" value="New Task" className="btn btn-success pull-left" onClick={this.newTask} />
+            <input type="submit" value="New Task" className="btn btn-success pull-left" onClick={this.props.newTask} />
           </Link>
         </div>
       </div>

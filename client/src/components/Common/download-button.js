@@ -3,7 +3,7 @@ import React from 'react';
 export default class DownloadButton extends React.Component {
   props: {
   fileLoad: any,
-  export: string,
+  exportFiles: string,
   removeFile: any,
   fileId: string
 }
@@ -15,7 +15,7 @@ export default class DownloadButton extends React.Component {
 
     window.location.href = `/api/files/upload/${this.props.fileLoad}`;
 
-    if (this.props.export === 'hidden') {
+    if (this.props.exportFiles === 'hidden') {
       this.props.removeFile(this.props.fileId);
     }
 
