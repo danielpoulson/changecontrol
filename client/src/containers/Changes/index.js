@@ -9,12 +9,13 @@ import SearchBox from '../../components/Common/search-box';
 
 /* actions */
 import { getChange, getChanges, addChange, loadPage, exportChanges, setChanges } from '../../actions/actions_changes';
-import { setMain } from '../../actions/actions_main';
+import { setMain, setChangeState } from '../../actions/actions_main';
 import { getFiles } from '../../actions/actions_files';
 
 class Changes extends Component {
   props: {
     changes: any,
+    showAll: boolean,
     exportChanges: any,
     getChanges: any,
     getChange: any,
@@ -23,6 +24,7 @@ class Changes extends Component {
     loadPage: any,
     setMain: any,
     setChanges: any,
+    setChangeState: any,
     user: any
   };
 
@@ -33,10 +35,10 @@ class Changes extends Component {
     count: 0,
     numPage: 15,
     txtSearch: this.props.changes.searchText,
-    showAll: false
+    showAll: this.props.showAll
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.onChange(1, this.state.txtSearch);
   }
 
@@ -81,6 +83,7 @@ class Changes extends Component {
     let _showAll = this.state.showAll;
     _showAll = !_showAll;
     this.setState({ showAll: _showAll });
+    this.props.setChangeState();
 
     if (this.state.showAll !== true) {
       this.props.getChanges(6);
@@ -89,7 +92,8 @@ class Changes extends Component {
     }
     this.setState({ txtSearch: null });
     this.setState({ activePage: 0 });
-    Toastr.success(`Only showing active changes - ${this.state.showAll}`, 'Change Detail', { timeOut: 1000 });
+    let toastMessage = _showAll ? 'Showing all changes' : 'Showing active changes';
+    Toastr.success(toastMessage, 'Change Detail', { timeOut: 2000 });
   };
 
   exportChange = () => {
@@ -176,5 +180,5 @@ class Changes extends Component {
   }
 }
 
-export default connect(state => ({ changes: state.changes, user: state.main.user }),
-  { getChange, getChanges, addChange, loadPage, exportChanges, setChanges, setMain, getFiles })(Changes);
+export default connect(state => ({ changes: state.changes, user: state.main.user, showAll: state.main.showAll }),
+  { getChange, getChanges, addChange, loadPage, exportChanges, setChanges, setMain, setChangeState, getFiles })(Changes);

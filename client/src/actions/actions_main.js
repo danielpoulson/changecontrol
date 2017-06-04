@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+export const SET_CHANGE_STATE = 'SET_CHANGE_STATE'; 
 export const SET_MAIN = 'SET_MAIN';
 export const SET_USER = 'SET_USER';
 export const USER_LOGGED_OUT = 'USER_LOGGED_OUT';
@@ -16,6 +17,10 @@ export function getUserDashboard(username){
     type: SET_USER_DASHBOARD,
     payload: request
   };
+}
+
+export function setChangeState() {
+  return { type: SET_CHANGE_STATE };
 }
 
 
