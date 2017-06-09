@@ -54,7 +54,6 @@ export default function (state = [], action) {
     _data = action.payload.data;
 
     return [
-      ...state,
       _data
     ];
   
