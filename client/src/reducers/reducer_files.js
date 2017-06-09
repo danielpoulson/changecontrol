@@ -1,4 +1,4 @@
-//SYNC 12/03/2017 DP
+//SYNC Ver001 DP
 import { GET_FILES, ADD_FILE, BOOKOUT_FILE, DELETE_FILE } from '../actions/actions_files';
 
 function toggleBooked(state, action) {
