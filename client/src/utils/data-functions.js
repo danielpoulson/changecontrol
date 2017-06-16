@@ -1,3 +1,4 @@
+// data-function ver-001 10/06/2017 DP
 import sortBy from 'lodash/fp/sortBy';
 import compose from 'lodash/fp/compose';
 import filter from 'lodash/fp/filter';
