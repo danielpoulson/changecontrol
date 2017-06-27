@@ -1,14 +1,11 @@
 import React from 'react';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import Moment from 'moment';
-import momentLocalizer from 'react-widgets/lib/localizers/moment';
-momentLocalizer(Moment);
 
 //V4
-// import momentLocalizer from 'react-widgets-moment';
-
-// Moment.locale('en');
-// momentLocalizer();
+import momentLocalizer from 'react-widgets-moment';
+Moment.locale('en');
+momentLocalizer();
 
 type Props = {
   inputdiv: string,

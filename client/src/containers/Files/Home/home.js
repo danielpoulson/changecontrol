@@ -20,11 +20,12 @@ class Home extends Component {
     getUserDashboard: any,
     loadPage: any,
     loadPageTask: any,
-    history: any,
+    history: any, 
     setSearch: any
   };
 
   componentWillMount() {
+    
     const username = sessionStorage.getItem('username');
     if (username) {
       this.props.getUserDashboard(username);
@@ -46,23 +47,23 @@ class Home extends Component {
     const action = {};
     action.search = null;
     this.props.loadPageTask(action);
-  };
+  }
 
   getAllChanges = () => {
     const action = {};
     action.search = null;
     this.props.loadPage(action);
-  };
+  }
 
-  render() {
-    return (
+  render(){
+    return(
       <div>
         <div className="dashboard"><h1>Dashboard</h1></div>
         <div className="row">
           <div className="col-sm-3">
             <div className="tile green grow" onClick={this.getChanges}>
               <h2>My Changes</h2>
-              <i className="fa fa-list-alt" />&nbsp; {this.props.countChangesUser}
+              <i className="fa fa-list-alt"></i>&nbsp; {this.props.countChangesUser}
             </div>
           </div>
           <Link to="/tasks">
@@ -77,7 +78,7 @@ class Home extends Component {
             <div className="col-sm-3">
               <div className="tile orange grow" onClick={this.getAllChanges}>
                 <h2>Open Changes</h2>
-                <i className="fa fa-list-alt" />&nbsp; {this.props.allOpenChanges}
+                <i className="fa fa-list-alt"></i>&nbsp; {this.props.allOpenChanges}
               </div>
             </div>
           </Link>
@@ -85,7 +86,7 @@ class Home extends Component {
             <div className="col-sm-3">
               <div className="tile purple grow" onClick={this.getAllTasks}>
                 <h2>Open Tasks</h2>
-                <i className="fa fa-tasks" />&nbsp; {this.props.allOpenTasks}
+                <i className="fa fa-tasks"></i>&nbsp; {this.props.allOpenTasks}
               </div>
             </div>
           </Link>
@@ -106,12 +107,9 @@ class Home extends Component {
 }
 
 export default connect(
-  state => ({
-    fullname: state.main.user.fullname,
+  state => ({ fullname: state.main.user.fullname,
     countChangesUser: state.main.countChangesUser,
     allOpenChanges: state.main.allOpenChanges,
     allOpenTasks: state.main.allOpenTasks,
-    countTasksUser: state.main.countTasksUser
-  }),
-  { getUserDashboard, loadPage, loadPageTask, setSearch }
+    countTasksUser: state.main.countTasksUser }), { getUserDashboard, loadPage, loadPageTask, setSearch }
 )(Home);
