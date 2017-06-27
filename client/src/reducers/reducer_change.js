@@ -1,15 +1,15 @@
+/* eslint "indent": "off" */
 import { GET_CHANGE, EDIT_CHANGE, CREATE_LOG } from '../actions/actions_changes';
 
 const initialState = {
-  CC_No: "New",
-  CC_Descpt: "Change Control",
-  CC_Champ: "",
+  CC_No: 'New',
+  CC_Descpt: 'Change Control',
+  CC_Champ: '',
   CC_Stat: 1,
   CC_LOG: []
 };
 
-export default function (state = initialState, action) {
-
+export default function(state = initialState, action) {
   switch (action.type) {
     case GET_CHANGE:
     case EDIT_CHANGE: {
