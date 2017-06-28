@@ -11,47 +11,45 @@ export const GET_PROJECT_TASKS = 'GET_PROJECT_TASKS';
 export const GET_ALL_TASKS = 'GET_ALL_TASKS';
 export const SET_CAPA = 'SET_CAPA';
 
+const api = 'http://localhost:6005';
 
 export function getTasks(data) {
-  const url = `/api/tasks/${data}`;
+  const url = `${api}/api/tasks/${data}`;
   const request = axios.get(url);
 
   return {
     type: GET_TASKS,
     payload: request
   };
-
 }
 
 export function getAllTasks() {
   const _status = 4;
   const _capa = 0;
-  const url = `/api/tasks/all/${_status}/${_capa}`;
+  const url = `${api}/api/tasks/all/${_status}/${_capa}`;
   const request = axios.get(url);
 
   return {
     type: GET_TASKS,
     payload: request
   };
-
 }
 
 export function getProjectTasks(data) {
-  const url = `/api/tasks/project/${data}`;
+  const url = `${api}/api/tasks/project/${data}`;
   const request = axios.get(url);
 
   return {
     type: GET_PROJECT_TASKS,
     payload: request
   };
-
 }
 
 export function getTask(data) {
   let request = {};
 
   if (data !== 'new') {
-    const url = `/api/tasks/${data}`;
+    const url = `${api}/api/tasks/${data}`;
     request = axios.get(url);
   }
 
@@ -59,54 +57,47 @@ export function getTask(data) {
     type: GET_TASK,
     payload: request
   };
-
 }
 
 export function addTask(data) {
-  const url = '/api/tasks';
+  const url = `${api}/api/tasks`;
   const request = axios.post(url, data);
 
   return {
     type: ADD_TASK,
     payload: request
   };
-
 }
 
 export function editTask(data) {
-  const url = `/api/tasks/${data._id}`;
+  const url = `${api}/api/tasks/${data._id}`;
   axios.put(url, data);
 
   return {
     type: EDIT_TASK,
     payload: data
   };
-
 }
 
 export function deleteTask(data) {
-  const url = `/api/tasks/${data}`;
+  const url = `${api}/api/tasks/${data}`;
   axios.delete(url);
 
   return {
     type: DELETE_TASK,
     payload: data
   };
-
 }
-
 
 export function loadPageTask(data) {
   return {
-
     type: LOAD_PAGE_TASKS,
     data
   };
-
 }
 
 export function exportTasks(search) {
-  const url = '/api/tasks/export';
+  const url = `${api}/api/tasks/export`;
   const request = axios.post(url, search);
 
   return {

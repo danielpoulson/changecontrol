@@ -11,11 +11,9 @@ class TextInput extends React.Component {
     inputdiv: string,
     inputstyle: string,
     labelstyle: string,
-    touched: boolean,
     type: string
-  }
+  };
   render() {
-
     let wrapperClass = 'form-group';
     const _inputstyle = 'form-control' || this.props.inputstyle;
     const _inputdiv = this.props.inputdiv;
@@ -29,17 +27,18 @@ class TextInput extends React.Component {
       <fieldset className={wrapperClass}>
         <label className={_labelstyle} htmlFor={this.props.name}>{this.props.label}</label>
         <div className={_inputdiv}>
-          <input type={this.props.type ? this.props.type : 'text'}
+          <input
+            type={this.props.type ? this.props.type : 'text'}
             name={this.props.name}
             className={_inputstyle}
             placeholder={this.props.placeholder}
             ref={this.props.name}
             value={this.props.value || ''}
-            onChange={this.props.onChange} />
+            onChange={this.props.onChange}
+          />
         </div>
       </fieldset>
     );
-
   }
 }
 

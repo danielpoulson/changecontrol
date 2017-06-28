@@ -3,7 +3,7 @@ import React from 'react';
 type Props = {
   searchText: string,
   onChange: any
-}
+};
 
 const SearchBox = ({ searchText, onChange }: Props) => {
   const divStyle = { paddingRight: 15 };
@@ -21,7 +21,7 @@ const SearchBox = ({ searchText, onChange }: Props) => {
         onChange={onChange}
         placeholder="Enter Search Text"
       />
-      <span style={spanStyle} className="input-group-addon glyphicon glyphicon-search"></span>
+      <span style={spanStyle} className="input-group-addon glyphicon glyphicon-search" />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 /* eslint "indent": "off" */
+import toastr from 'toastr';
 import {
   SET_MAIN,
   SET_CHANGE_STATE,
@@ -8,7 +9,6 @@ import {
   SET_LOADING,
   SET_USER_DASHBOARD
 } from '../actions/actions_main';
-import toastr from 'toastr';
 
 const initialState = {
   MainId: '',

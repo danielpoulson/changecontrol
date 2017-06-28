@@ -1,25 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import toastr from 'toastr';
 import UserProfileForm from '../../components/User/user-profile-form';
 import UserSelect from '../../components/User/user-select';
-import {usersFormattedForDropdown} from '../../selectors/selectors';
-import {userFormIsValid} from './user-form.validation';
-import toastr from 'toastr';
+import { usersFormattedForDropdown } from '../../selectors/selectors';
+import { userFormIsValid } from './user-form.validation';
 
 import { getUser, getUsers, createUser, resetUser, saveUser, deleteUser } from '../../actions/actions_users';
 
 class UserProfile extends Component {
-  props: {
-    user: any,
-    users: any,
-    resetUser: any,
-    getUser: any,
-    getUsers: any,
-    createUser: any,
-    saveUser: any,
-    deleteUser: any
-  }
-
   constructor(props, context) {
     super(props, context);
 
@@ -40,7 +29,7 @@ class UserProfile extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.user._id !== nextProps.user._id) {
       // Necessary to populate form when existing course is loaded directly.
-      this.setState({user: Object.assign({}, nextProps.user)});
+      this.setState({ user: Object.assign({}, nextProps.user) });
     }
   }
 
@@ -70,12 +59,12 @@ class UserProfile extends Component {
 
   saveUser(event) {
     event.preventDefault();
-    let _user = this.state.user;
+    const _user = this.state.user;
 
-    let validation = userFormIsValid(_user);
-    this.setState({errors: validation.errors});
+    const validation = userFormIsValid(_user);
+    this.setState({ errors: validation.errors });
 
-    if(!validation.formIsValid) {
+    if (!validation.formIsValid) {
       return;
     }
 
@@ -91,13 +80,22 @@ class UserProfile extends Component {
 
   updateUserState(event) {
     const field = event.target.name;
-    let user = this.state.user;
+    const user = this.state.user;
     user[field] = event.target.value;
-    return this.setState({user: user});
+    return this.setState({ user });
   }
 
+  props: {
+    user: any,
+    users: any,
+    resetUser: any,
+    getUser: any,
+    getUsers: any,
+    createUser: any,
+    saveUser: any,
+    deleteUser: any
+  };
   render() {
-
     const formStyle = {
       backgroundColor: '#fcfffc',
       border: 'solid 1px',
@@ -106,13 +104,11 @@ class UserProfile extends Component {
       marginRight: 0,
       marginLeft: 0,
       padding: 15
-
     };
 
-    const roleSelect = [{value: 'user', text: 'user'}, {value: 'admin', text: 'admin'}];
+    const roleSelect = [{ value: 'user', text: 'user' }, { value: 'admin', text: 'admin' }];
 
     return (
-
       <div>
         <div>
           <div className="section-header">
@@ -124,9 +120,9 @@ class UserProfile extends Component {
 
         <div className="row" style={formStyle}>
 
-          {this.state.isNewUser ? null :
-            <UserSelect users={this.props.users} onChange={this.onChange} newUser={this.newUser} />
-          }
+          {this.state.isNewUser
+            ? null
+            : <UserSelect users={this.props.users} onChange={this.onChange} newUser={this.newUser} />}
 
           <UserProfileForm
             errors={this.state.errors}
@@ -136,12 +132,12 @@ class UserProfile extends Component {
             deleteUser={this.deleteUser}
             onCancel={this.onCancel}
             onChange={this.updateUserState}
-            roleSelect={roleSelect} />
+            roleSelect={roleSelect}
+          />
         </div>
 
       </div>
     );
-
   }
 }
 
@@ -152,5 +148,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps,
-{ getUser, createUser, resetUser, saveUser, deleteUser, getUsers })(UserProfile);
+export default connect(mapStateToProps, { getUser, createUser, resetUser, saveUser, deleteUser, getUsers })(
+  UserProfile
+);

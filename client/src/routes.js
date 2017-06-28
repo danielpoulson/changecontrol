@@ -11,7 +11,7 @@ import Tasks from './containers/Tasks/tasks';
 import User from './containers/User/user-profile';
 import UserPass from './containers/User/user-pass';
 import Export from './components/Files/file-export';
-import { Footer } from './layouts/Footer';
+import Footer from './layouts/Footer';
 
 function requireAuth(nextState, replace) {
   const authorised = sessionStorage.getItem('authorised');
@@ -21,12 +21,12 @@ function requireAuth(nextState, replace) {
   }
 }
 
-const Routes = () => (
-  <Router >
+const Routes = () =>
+  <Router>
     <div className="container">
       <App />
       <Switch>
-        <Route exact path="/" component={Home}/>
+        <Route exact path="/" component={Home} />
         <Route path="/changes" component={Changes} onEnter={requireAuth} />
         <Route path="/change/:id" component={ChangeDetail} onEnter={requireAuth} />
         <Route path="/task/:id" component={TaskDetail} onEnter={requireAuth} />
@@ -38,7 +38,6 @@ const Routes = () => (
       </Switch>
       <Footer />
     </div>
-  </Router>
-);
+  </Router>;
 
 export default Routes;

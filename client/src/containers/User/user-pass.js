@@ -2,18 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
-import {userPassIsValid} from './user-form.validation';
+import { userPassIsValid } from './user-form.validation';
 
 import { savePass } from '../../actions/actions_users';
 
 class UserPass extends Component {
-  props : {
-    id: string,
-    savePass: {
-      id: string,
-      passwords: string
-    }
-  }
   state = {
     passwords: {
       password: '',
@@ -22,35 +15,42 @@ class UserPass extends Component {
     errors: []
   };
 
-  onChange = (e) => {
+  onChange = e => {
     const passwords = this.state.passwords;
-    const _name = e.target.name; 
-    passwords[_name] = e.target.value; 
+    const _name = e.target.name;
+    passwords[_name] = e.target.value;
 
-    this.setState({passwords: passwords});
+    this.setState({ passwords });
   };
 
-  onSave = (e) => {
+  onSave = e => {
     e.preventDefault();
     const passwords = this.state.passwords;
 
     if (passwords.password === passwords.password2) {
-      let validation = userPassIsValid(passwords.password);
-      this.setState({errors: validation.errors});
+      const validation = userPassIsValid(passwords.password);
+      this.setState({ errors: validation.errors });
 
-      if(!validation.formIsValid) {
+      if (!validation.formIsValid) {
         return;
-      }	
+      }
 
       toastr.success('Yeah Baby... You password has been changed', 'User Account', { timeOut: 1000 });
       this.props.savePass(this.props.id, passwords.password);
     } else {
-      toastr.error('Nooooooo... These passwords did not match ... please try again.', 'User Account', { timeOut: 2000 });
+      toastr.error('Nooooooo... These passwords did not match ... please try again.', 'User Account', {
+        timeOut: 2000
+      });
+    }
+  };
+  props: {
+    id: string,
+    savePass: {
+      id: string
     }
   };
 
   render() {
-
     let wrapperClass = 'form-group';
     let alertClass = 'col-sm-9 col-md-offset-3';
 
@@ -69,19 +69,26 @@ class UserPass extends Component {
           <div className={wrapperClass}>
             <label htmlFor="password" className="col-sm-3 control-label">Password</label>
             <div className="col-sm-3">
-              <input 
-                type="password" 
-                name="password"  
-                className="form-control" 
-                onChange={this.onChange} 
-                value={this.state.password}/>
+              <input
+                type="password"
+                name="password"
+                className="form-control"
+                onChange={this.onChange}
+                value={this.state.password}
+              />
             </div>
           </div>
 
           <div className={wrapperClass}>
             <label htmlFor="password2" className="col-sm-3 control-label">Re-enter Password</label>
             <div className="col-sm-3">
-              <input type="password" name="password2"  className="form-control" onChange={this.onChange} value={this.state.password}/>
+              <input
+                type="password"
+                name="password2"
+                className="form-control"
+                onChange={this.onChange}
+                value={this.state.password}
+              />
             </div>
           </div>
 
@@ -90,7 +97,7 @@ class UserPass extends Component {
               <button type="submit" className="btn btn-success pull-left" onClick={this.onSave}>Save</button>
             </Link>
             <Link to="/home">
-              <button className="btn btn-info dp-margin-10-LR" >Cancel</button>
+              <button className="btn btn-info dp-margin-10-LR">Cancel</button>
             </Link>
           </div>
         </form>
@@ -105,5 +112,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps,
-{ savePass })(UserPass);
+export default connect(mapStateToProps, { savePass })(UserPass);

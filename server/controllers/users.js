@@ -44,8 +44,8 @@ exports.updateUser = function (req, res, next) {
 exports.updatePassword = function(req, res) {
   const password = req.body.password;
 
-  console.log(password);
-  console.log(req.params.id);
+  console.log('password')
+  console.log(password)
 
   if (password) {
     

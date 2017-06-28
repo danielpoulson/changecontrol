@@ -1,7 +1,7 @@
 export function changeFormIsValid(change) {
   let formIsValid = true;
-  let errors = []; //Clears any previous errors
-  let errorsObj = {}; //Clears any previous errors
+  const errors = []; //Clears any previous errors
+  const errorsObj = {}; //Clears any previous errors
 
   if (!change.CC_Descpt) {
     errors.push('Change Title - is required');

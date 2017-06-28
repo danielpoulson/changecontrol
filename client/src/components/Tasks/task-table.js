@@ -5,14 +5,14 @@ import TaskRow from './task-row';
 type Props = {
   tasklist: any,
   onSelectTask: any
-}
+};
 
-const TaskTable = ({tasklist, onSelectTask} : Props) => {
+const TaskTable = ({ tasklist, onSelectTask }: Props) => {
   const _tasks = tasklist;
   let tasks = [];
 
   if (_tasks !== undefined) {
-    tasks = _tasks.map((task, i) => <TaskRow key={task._id} task={task} onSelectTask={onSelectTask} />);
+    tasks = _tasks.map(task => <TaskRow key={task._id} task={task} onSelectTask={onSelectTask} />);
   }
 
   return (

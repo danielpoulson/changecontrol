@@ -3,11 +3,10 @@ import './error-panel.css';
 
 type Props = {
   errors: any
-}
+};
 
-const ErrorPanel = ({errors}:Props) => {
-
-  const errorlist = errors.map( (e, i) => <li key={i}><span className="fa fa-exclamation-triangle"></span> - {e}</li>);
+const ErrorPanel = ({ errors }: Props) => {
+  const errorlist = errors.map((e, i) => <li key={i}><span className="fa fa-exclamation-triangle" /> - {e}</li>);
 
   return (
     <div className="alert alert-danger">

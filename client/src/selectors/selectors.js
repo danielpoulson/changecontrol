@@ -1,10 +1,8 @@
 export function usersFormattedForDropdown(users) {
-  return users.map(user => {
-    return {
-      value: user,
-      text: user
-    };
-  });
+  return users.map(user => ({
+    value: user,
+    text: user
+  }));
 }
 
 // TODO: (3) LOW Add a function to add delete users

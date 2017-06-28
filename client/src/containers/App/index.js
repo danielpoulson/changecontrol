@@ -12,25 +12,23 @@ import './styles/app.css';
 /* application components */
 import Header from '../../layouts/Header';
 
-export class App extends Component {
-  props: {
-    children: any,
-    getAllTasks: any,
-    getChanges: any,
-    getUsers: any,
-    setUser: any
-  }
-
+class App extends Component {
   componentWillMount() {
-    const authorised:any = sessionStorage.getItem('authorised');    
+    const authorised: any = sessionStorage.getItem('authorised');
     this.props.getAllTasks();
     this.props.getChanges(4);
     this.props.getUsers();
     if (authorised === 'true') {
       this.props.setUser();
     }
-    
   }
+
+  props: {
+    getAllTasks: any,
+    getChanges: any,
+    getUsers: any,
+    setUser: any
+  };
 
   render() {
     return <Header />;

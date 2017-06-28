@@ -10,20 +10,6 @@ import { setFiletabCount } from '../../actions/actions_main';
 import { createLog } from '../../actions/actions_changes'; //Not Synced
 
 class FileList extends Component {
-  props: {
-    addFile: any,
-    bookoutFile: any,
-    createLog: any,
-    deleteFile: any,
-    exportFiles: string,
-    files: any,
-    filesTab: string,
-    getFiles: any,
-    removeFile: any,
-    setFiletabCount: any,
-    sourceId: string,
-    user: any
-  }
   constructor(props) {
     super(props);
     this.state = {};
@@ -63,6 +49,20 @@ class FileList extends Component {
   onBookoutFile(id, user) {
     this.props.bookoutFile(id, user);
   }
+  props: {
+    addFile: any,
+    bookoutFile: any,
+    createLog: any,
+    deleteFile: any,
+    exportFiles: string,
+    files: any,
+    filesTab: string,
+    getFiles: any,
+    removeFile: any,
+    setFiletabCount: any,
+    sourceId: string,
+    user: any
+  };
 
   render() {
     const tableStyle = {
@@ -81,14 +81,12 @@ class FileList extends Component {
               createLog={this.onCreateLog}
               deleteFile={this.onDeleteFile}
               removeFile={this.onRemoveFile}
-              bookoutFile={this.onBookoutFile} />
+              bookoutFile={this.onBookoutFile}
+            />
           </div>
           <div className={this.props.exportFiles}>
             <div className="col-sm-1">
-              <FileZone
-                addFile={this.onAddFile}
-                user={this.props.user}
-                sourceId={this.props.sourceId} />
+              <FileZone addFile={this.onAddFile} user={this.props.user} sourceId={this.props.sourceId} />
             </div>
           </div>
         </div>
@@ -97,13 +95,12 @@ class FileList extends Component {
   }
 }
 
-export default connect(state => ({ files: state.files, user: state.main.user }),
-  {
-    getFiles,
-    addFile,
-    bookoutFile,
-    deleteFile,
-    removeFile,
-    setFiletabCount,
-    createLog
-  })(FileList);
+export default connect(state => ({ files: state.files, user: state.main.user }), {
+  getFiles,
+  addFile,
+  bookoutFile,
+  deleteFile,
+  removeFile,
+  setFiletabCount,
+  createLog
+})(FileList);

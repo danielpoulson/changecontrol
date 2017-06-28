@@ -12,15 +12,13 @@ type Props = {
   newUser: boolean,
   roleSelect: mixed[],
   user: {}
-}
+};
 
-const UserProfileForm = ({ errors, user, deleteUser, onChange, onCancel, onSave, roleSelect, newUser}: Props) => {
+const UserProfileForm = ({ errors, user, deleteUser, onChange, onCancel, onSave, roleSelect, newUser }: Props) => (
+  <div className="col-sm-12">
+    <form className="form form-horizontal">
 
-  return (
-    <div className="col-sm-12">
-      <form className="form form-horizontal">
-
-        <TextInputTask
+      <TextInputTask
         name="username"
         label="Username"
         value={user.username}
@@ -29,9 +27,9 @@ const UserProfileForm = ({ errors, user, deleteUser, onChange, onCancel, onSave,
         labelstyle="col-sm-2 control-label"
         inputdiv="col-sm-3"
         error={errors.username}
-        />
+      />
 
-        <TextInputTask
+      <TextInputTask
         name="fullname"
         label="Fullname"
         value={user.fullname}
@@ -40,9 +38,9 @@ const UserProfileForm = ({ errors, user, deleteUser, onChange, onCancel, onSave,
         labelstyle="col-sm-2 control-label"
         inputdiv="col-sm-3"
         error={errors.fullname}
-        />
+      />
 
-        <TextInputTask
+      <TextInputTask
         name="email"
         label="Email"
         value={user.email}
@@ -51,9 +49,9 @@ const UserProfileForm = ({ errors, user, deleteUser, onChange, onCancel, onSave,
         labelstyle="col-sm-2 control-label"
         inputdiv="col-sm-3"
         error={errors.email}
-        />
+      />
 
-        <SelectInput
+      <SelectInput
         name="role"
         label="Role"
         labelstyle="col-sm-2 control-label"
@@ -62,9 +60,10 @@ const UserProfileForm = ({ errors, user, deleteUser, onChange, onCancel, onSave,
         defaultOption="Select Role"
         options={roleSelect}
         onChange={onChange}
-        error={errors.role}/>
+        error={errors.role}
+      />
 
-        <TextInputTask
+      <TextInputTask
         name="password"
         label="Password"
         value={user.password}
@@ -73,23 +72,22 @@ const UserProfileForm = ({ errors, user, deleteUser, onChange, onCancel, onSave,
         labelstyle="col-sm-2 control-label"
         inputdiv="col-sm-3"
         error={errors.password}
-        />
+      />
 
-        <div className="col-sm-9 col-md-offset-2">
-          <button type="submit" className="btn btn-success pull-left" onClick={onSave}>
+      <div className="col-sm-9 col-md-offset-2">
+        <button type="submit" className="btn btn-success pull-left" onClick={onSave}>
           Save
-          </button>
-          {/* //TODO: (3) LOW This button should be hidden when editing or return to the home screen */}
-          <button className="btn btn-info dp-margin-10-LR" onClick={onCancel}>
-            Cancel
-          </button>
-          <button className="btn btn-danger dp-margin-10-LR" disabled={newUser} onClick={deleteUser}>
-            Delete
-          </button>
-        </div>
-        </form>
-    </div>
-  );
-};
+        </button>
+        {/* //TODO: (3) LOW This button should be hidden when editing or return to the home screen */}
+        <button className="btn btn-info dp-margin-10-LR" onClick={onCancel}>
+          Cancel
+        </button>
+        <button className="btn btn-danger dp-margin-10-LR" disabled={newUser} onClick={deleteUser}>
+          Delete
+        </button>
+      </div>
+    </form>
+  </div>
+);
 
 export default UserProfileForm;

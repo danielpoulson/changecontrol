@@ -1,4 +1,3 @@
-// @flow
 import axios from 'axios';
 
 export const GET_CHANGES = 'GET_CHANGES';
@@ -9,20 +8,20 @@ export const LOAD_PAGE_CHANGES = 'LOAD_PAGE_CHANGES';
 export const CREATE_LOG = 'CREATE_LOG';
 export const BOOKOUT_FILE = 'BOOKOUT_FILE';
 
+const api = 'http://localhost:6005';
 
 export function getChanges(data) {
-  const url = `/api/changes/all/${data}`;
+  const url = `${api}/api/changes/all/${data}`;
   const request = axios.get(url);
 
   return {
     type: GET_CHANGES,
     payload: request
   };
-
 }
 
 export function getChange(data) {
-  const url = `/api/changes/${data}`;
+  const url = `${api}/api/changes/${data}`;
   let request = {};
 
   if (data !== 'new') {
@@ -33,35 +32,32 @@ export function getChange(data) {
     type: GET_CHANGE,
     payload: request
   };
-
 }
 
 export function addChange(data) {
-  const url = '/api/changes';
+  const url = `${api}/api/changes`;
   const request = axios.post(url, data);
 
   return {
     type: ADD_CHANGE,
     payload: request
   };
-
 }
 
 export function editChange(data) {
-  const url = `/api/changes/${data._id}`;
+  const url = `${api}/api/changes/${data._id}`;
   axios.put(url, data);
 
   return {
     type: EDIT_CHANGE,
     payload: data
   };
-
 }
 
 // TODO: Delete change from cached list of changes
 
 export function closeChange(data) {
-  const url = `/api/changes/${data._id}`;
+  const url = `${api}/api/changes/${data._id}`;
   axios.put(url, data);
 
   return {
@@ -72,37 +68,33 @@ export function closeChange(data) {
 
 export function loadPage(data) {
   return {
-
     type: LOAD_PAGE_CHANGES,
     data
   };
-
 }
 
 export function createLog(data) {
-  const url = `/api/changes/changelog/${data.CC_No}`;
+  const url = `${api}/api/changes/changelog/${data.CC_No}`;
   axios.put(url, data);
 
   return {
     type: CREATE_LOG,
     payload: data
   };
-
 }
 
 export function bookoutFile(data) {
-  const url = `/api/filebooked/${data._id}`;
+  const url = `${api}/api/filebooked/${data._id}`;
   axios.put(url);
 
   return {
     type: BOOKOUT_FILE,
     payload: data
   };
-
 }
 
 export function exportChanges(search: string) {
-  const url = '/api/changes/export';
+  const url = `${api}/api/changes/export`;
   const request = axios.post(url, search);
 
   return {

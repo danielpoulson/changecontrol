@@ -1,8 +1,20 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Combobox from 'react-widgets/lib/Combobox';
 
+type Props = {
+  data: [],
+  name: string,
+  label: string,
+  onChange: Function,
+  error: string,
+  dpLabelCol: string,
+  dpInputCol: string,
+  defaultValue: any,
+  value: any,
+  touched: boolean
+};
 
-const ComboBox = (props) => {
+const ComboBox = (props: Props) => {
   const spanStyle = { color: 'red' };
   let dtStyle = {};
   const wrapperClass = 'form-group';
@@ -23,26 +35,12 @@ const ComboBox = (props) => {
           data={props.data}
           value={props.value}
           onChange={props.onChange}
-          defaultValue={props.defaultValue} />
-          {props.touched && props.error &&
-                <div style={spanStyle} className="input">{props.error}</div>
-          }
+          defaultValue={props.defaultValue}
+        />
+        {props.touched && props.error && <div style={spanStyle} className="input">{props.error}</div>}
       </div>
     </div>
   );
-};
-
-ComboBox.propTypes = {
-  data: PropTypes.array.isRequired,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func,
-  error: PropTypes.string,
-  dpLabelCol: PropTypes.string,
-  dpInputCol: PropTypes.string,
-  defaultValue: PropTypes.any,
-  value: PropTypes.any,
-  touched: PropTypes.bool
 };
 
 export default ComboBox;

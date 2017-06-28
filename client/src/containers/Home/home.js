@@ -11,19 +11,6 @@ import RechartLineChart from '../../components/graphs/rechart-line-chart';
 import './styles.css';
 
 class Home extends Component {
-  props: {
-    allOpenChanges: number,
-    allOpenTasks: number,
-    countChangesUser: number,
-    countTasksUser: number,
-    fullname: string,
-    getUserDashboard: any,
-    loadPage: any,
-    loadPageTask: any,
-    history: any,
-    setSearch: any
-  };
-
   componentWillMount() {
     const username = sessionStorage.getItem('username');
     if (username) {
@@ -52,6 +39,18 @@ class Home extends Component {
     const action = {};
     action.search = null;
     this.props.loadPage(action);
+  };
+  props: {
+    allOpenChanges: number,
+    allOpenTasks: number,
+    countChangesUser: number,
+    countTasksUser: number,
+    fullname: string,
+    getUserDashboard: any,
+    loadPage: any,
+    loadPageTask: any,
+    history: any,
+    setSearch: any
   };
 
   render() {

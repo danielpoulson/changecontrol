@@ -12,17 +12,6 @@ import { getChange } from '../../actions/actions_changes';
 import { setMain } from '../../actions/actions_main';
 
 class Tasks extends Component {
-  props: {
-    user: any,
-    tasks: any,
-    exportTasks: any,
-    getAllTasks: any,
-    getChange: any,
-    getFiles: any,
-    history: any,
-    loadPageTask: any,
-    setMain: any
-  }
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +27,6 @@ class Tasks extends Component {
     this.onSortByClick = this.onSortByClick.bind(this);
     this.linkClick = this.linkClick.bind(this);
     this.exportTask = this.exportTask.bind(this);
-
   }
 
   componentWillMount() {
@@ -55,9 +43,9 @@ class Tasks extends Component {
     //
   }
 
-  onChange(page_num, searchText, column) {
+  onChange(pageNum, searchText, column) {
     const action = {};
-    action.page_num = page_num || 1;
+    action.pageNum = pageNum || 1;
     action.search = searchText || null;
     action.numPage = this.state.numPage;
     action.column = column;
@@ -72,7 +60,7 @@ class Tasks extends Component {
   }
 
   onSelectTask(i) {
-    const ccNo:string = i.SourceId;
+    const ccNo: string = i.SourceId;
     this.props.setMain({ MainId: ccNo, CurrentMode: 'change', loading: true });
     this.props.getChange(ccNo);
     this.props.history.push(`/change/${ccNo}`);
@@ -98,33 +86,37 @@ class Tasks extends Component {
 
     this.props.exportTasks(info);
   }
+  props: {
+    user: any,
+    tasks: any,
+    exportTasks: any,
+    getAllTasks: any,
+    getChange: any,
+    history: any,
+    loadPageTask: any,
+    setMain: any,
+    tasklist: []
+  };
 
   render() {
-
     return (
-
       <div>
         <div className="">
           <div className="section-header">
             <div className="col-sm-6 pull-left">
               <p className="section-header-text-main">
-              Active Task List
+                Active Task List
               </p>
             </div>
 
-            <SearchBox
-              searchText={this.state.txtSearch}
-              onChange={this.onSearchText}
-            />
+            <SearchBox searchText={this.state.txtSearch} onChange={this.onSearchText} />
           </div>
         </div>
 
         <div className="row">
           <div className="col-sm-6">
             <Link to="/export">
-              <button
-                className="btn btn-info"
-                onClick={this.exportTask} >
+              <button className="btn btn-info" onClick={this.exportTask}>
                 Export List
               </button>
             </Link>
@@ -135,19 +127,23 @@ class Tasks extends Component {
               activePage={this.state.activePage}
               numPage={this.props.tasks.per_page}
               count={this.props.tasks.total}
-              getPage={this.linkClick.bind(this)} />
+              getPage={this.linkClick.bind(this)}
+            />
           </div>
         </div>
 
-        <TaskList
-          tasklist={this.props.tasks.paged}
-          onSelectTask={this.onSelectTask}
-          type="All" />
+        <TaskList tasklist={this.props.tasks.paged} onSelectTask={this.onSelectTask} type="All" />
 
-        </div>
+      </div>
     );
   }
 }
 
-export default connect(state => ({ tasks: state.tasks, user: state.main.user }),
-  { getAllTasks, loadPageTask, exportTasks, getFiles, getChange, setMain })(Tasks);
+export default connect(state => ({ tasks: state.tasks, user: state.main.user }), {
+  getAllTasks,
+  loadPageTask,
+  exportTasks,
+  getFiles,
+  getChange,
+  setMain
+})(Tasks);

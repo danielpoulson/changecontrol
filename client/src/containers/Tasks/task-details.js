@@ -1,35 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
+import toastr from 'toastr';
 import TaskForm from '../../components/Tasks/task-form';
 import ErrorPanel from '../../components/Common/error-panel';
-import toastr from 'toastr';
-import {taskFormIsValid} from './task-form.validation';
-import {usersFormattedForDropdown} from '../../selectors/selectors';
+import { taskFormIsValid } from './task-form.validation';
+import { usersFormattedForDropdown } from '../../selectors/selectors';
 
 import * as taskActions from '../../actions/actions_tasks';
 import * as mainActions from '../../actions/actions_main';
 
 class TaskDetail extends React.Component {
-  props: {  
-    deleteTask: any,
-    main: any,
-    mainActions: any,
-    newTask: any,
-    setLoading: any,
-    editTask: any,
-    addTask: any,
-    history: any,
-    task: any,
-    taskActions: any,
-    users: any,
-    match: {
-      params: {
-        id: string
-      }
-    }
-  };
-
   constructor(props, context) {
     super(props, context);
 
@@ -61,7 +42,7 @@ class TaskDetail extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.task._id !== nextProps.task._id) {
       // Necessary to populate form when existing course is loaded directly.
-      this.setState({task: Object.assign({}, nextProps.task)});
+      this.setState({ task: Object.assign({}, nextProps.task) });
     }
   }
 
@@ -83,13 +64,13 @@ class TaskDetail extends React.Component {
     event.preventDefault();
 
     const _SourceId = this.props.main.MainId;
-    let _task = this.state.task;
+    const _task = this.state.task;
 
-    let validation = taskFormIsValid(_task);
-    this.setState({errors: validation.errors});
-    this.setState({errorsObj: validation.errorsObj});
+    const validation = taskFormIsValid(_task);
+    this.setState({ errors: validation.errors });
+    this.setState({ errorsObj: validation.errorsObj });
 
-    if(!validation.formIsValid) {
+    if (!validation.formIsValid) {
       return;
     }
 
@@ -109,20 +90,37 @@ class TaskDetail extends React.Component {
 
   updateTaskState(event) {
     const field = event.target.name;
-    let task = this.state.task;
+    const task = this.state.task;
     task[field] = event.target.value;
-    return this.setState({task: task});
+    return this.setState({ task });
   }
 
   updateTaskStateDate(field, value) {
     // this.setState({dirty: true});
-    let task = this.state.task;
+    const task = this.state.task;
     task[field] = value;
-    return this.setState({task: task});
+    return this.setState({ task });
   }
+  props: {
+    deleteTask: any,
+    main: any,
+    mainActions: any,
+    newTask: any,
+    setLoading: any,
+    editTask: any,
+    addTask: any,
+    history: any,
+    task: any,
+    taskActions: any,
+    users: any,
+    match: {
+      params: {
+        id: string
+      }
+    }
+  };
 
   render() {
-
     const formStyle = {
       backgroundColor: '#fcfffc',
       border: 'solid 1px',
@@ -131,38 +129,38 @@ class TaskDetail extends React.Component {
       paddingBottom: 50
     };
 
-    const taskTitle = this.props.main.ChangeTitle? this.props.main.ChangeTitle : 'New Task';
+    const taskTitle = this.props.main.ChangeTitle ? this.props.main.ChangeTitle : 'New Task';
 
     return (
-        <div>
-          <div className="">
-            <div className="section-header">
-              <p className="section-header-text-sub">{taskTitle}</p>
-            </div>
+      <div>
+        <div className="">
+          <div className="section-header">
+            <p className="section-header-text-sub">{taskTitle}</p>
           </div>
-
-          <div style={formStyle}>
-            {this.state.errors.length > 0 ? <ErrorPanel errors={this.state.errors}/> : ""}
-            <TaskForm
-              errors={this.state.errorsObj}
-              hideDelete={this.state.hideDelete}
-              onCancel={this.cancelTask}
-              onChange={this.updateTaskState}
-              onDateChange={this.updateTaskStateDate}
-              onDeleteTask={this.deleteTask}
-              onSaveTask={this.saveTask}
-              status={this.state.status}
-              submitting={this.state.submitting}
-              task={this.state.task}
-              users={this.props.users} />
-            </div>
         </div>
+
+        <div style={formStyle}>
+          {this.state.errors.length > 0 ? <ErrorPanel errors={this.state.errors} /> : ''}
+          <TaskForm
+            errors={this.state.errorsObj}
+            hideDelete={this.state.hideDelete}
+            onCancel={this.cancelTask}
+            onChange={this.updateTaskState}
+            onDateChange={this.updateTaskStateDate}
+            onDeleteTask={this.deleteTask}
+            onSaveTask={this.saveTask}
+            status={this.state.status}
+            submitting={this.state.submitting}
+            task={this.state.task}
+            users={this.props.users}
+          />
+        </div>
+      </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-
   return {
     main: state.main,
     task: state.task,
