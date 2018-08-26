@@ -43,7 +43,6 @@
     "express-session": "^1.15.1",
     "foreman": "^2.0.0",
     "json2csv": "^3.7.3",
-    "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "mongoose": "^4.8.4",
     "mongoose-to-csv": "^0.1.1",
